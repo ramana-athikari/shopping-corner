@@ -1,0 +1,46 @@
+############# Project Guide ##############
+    Author : Venkata Ramana
+    Mobile : 6304354637
+    Publish Date : 03-11-2024
+
+############# About Project ##############
+    React E - Commerce Shopping Application (Cash on Delivery)
+    Technologies
+        Frontend
+            1. HTML
+            2. CSS
+            3. Bootstrap 5
+            4. React (JSX)
+        Backend
+        1. JSON-SERVER (mock api)
+
+############# How To Setup Run The Project #############
+    1. Download React Project Source Code : 
+    2. Download Api Source Code : 
+
+Note : Steps to Setup the Project 
+    1. Download Source code from above url
+    2. unzip/extract both the folder
+    3. install nodejs 18+ versionin your system
+    4. install react development environment using below command
+        npm install -g create-react-app 
+
+    5. install JSON-SERVER torun api
+        npm install -g json-server
+    6. start the json-server using below command 
+        a. open cmd in api folder ( that u have extarcted ) and run 
+
+            json-server --watch data.json --port 1234
+    
+    7. start react development server
+        a. open cmd in react project folder that is "project1" and run this command
+
+            npm start
+
+        Note : You can browser http://localhost:3000
+
+    Thanks for your time to see my project.
+    I hope for position responsive form your side
+    Venkata Ramana (6304354637)
+
+#############################################################################
