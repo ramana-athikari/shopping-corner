@@ -78,7 +78,7 @@ const MyCart = () =>{
             getProduct(); // reload the cart item list after update
             obj.target.reset();
         })  
-
+        
         alert("Hi, " + customer.cname + " \n Your Order is Placed Successfully !");
         
     }
