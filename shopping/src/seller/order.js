@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
+import Swal from "sweetalert2";
 
 const ManageOrder = () =>{
     let [allOrder, setOrder] = useState([]);
@@ -15,6 +16,38 @@ const ManageOrder = () =>{
     useEffect(()=>{
         getOrder();
     },[]);
+
+    const delOrder = (productId) =>{
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                let url = `http://localhost:1234/orderapi/${productId}`;
+                let postData = {method:'delete'};
+                try {
+                    fetch(url,postData)
+                    .then(res=>res.json())
+                    .then(pDetails=>{
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your Order has been deleted.",
+                            icon: "success"
+                          });
+                        getOrder();
+                    })
+                } catch (error) {
+                    console.error(error);
+                    alert("Error while Deleting !")
+                }
+            }
+          });
+    }
 
     // Pagination start
 
@@ -45,6 +78,7 @@ const ManageOrder = () =>{
                                 <p> Mobile No : {product.mobile} </p>
                                 <p> Email Id : {product.email} </p>
                                 <p> Address : {product.address} </p>
+                                <p> <button onClick={delOrder.bind(this,product.id)} className="btn btn-danger"> Delete </button></p>
                             </div>
                             <div className="col-lg-9">
                                 <h5 className="text-center text-danger mb-3">

@@ -10,7 +10,10 @@ const MyLogin = () => {
     let [message, setMessage] = useState("Enter Login Details");
     let [myBtn, handleBtn] = useState(false);
 
-    const loginCheck = () => {
+    const loginCheck = (obj) => {
+
+        obj.preventDefault();
+
         let formStatus = true;
 
         let epattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -35,7 +38,7 @@ const MyLogin = () => {
             setMessage("Enter Login Details !");
         } else {
             handleBtn(true);
-            setMessage("Please Wait Proccessing...");
+            setMessage("Please Wait Processing...");
             fetch("http://localhost:1234/sellerapi")
             .then(res => res.json())
             .then(accountArray => {
@@ -46,6 +49,7 @@ const MyLogin = () => {
                         loginStatus = true;
                         localStorage.setItem("sellerId", seller.id);
                         localStorage.setItem("sellerName", seller.fullName);
+                        window.location.href="/#/dashboard";
                         window.location.reload();
                     }
                 } // for loop end
@@ -60,33 +64,35 @@ const MyLogin = () => {
 
     return (
         <div className="container mt-3">
+            <form onSubmit={loginCheck}>
             <div className="row">
                 <div className="col-lg-4"></div>
-                <div className="col-lg-4">
-                    <p className="text-primary text-center"> {message} </p>
-                    <div className="card border-0 shadow-lg">
-                        <div className="card-header border-0 bg-danger">
-                            <h5 className="text-white text-center"> <i className="fa fa-lock"> </i> Vendor Login </h5>
-                        </div>
-                        <div className="card-body border-0">
-                            <div className="mb-3">
-                                <label> Your Email Id </label>
-                                <input type="email" onChange={obj => setEmail(obj.target.value)} className="form-control" />
-                                <small className="text-danger"> {emailError} </small>
+                    <div className="col-lg-4">
+                        <p className="text-primary text-center"> {message} </p>
+                        <div className="card border-0 shadow-lg">
+                            <div className="card-header border-0 bg-danger">
+                                <h5 className="text-white text-center"> <i className="fa fa-lock"> </i> Vendor Login </h5>
                             </div>
-                            <div className="mb-3">
-                                <label> Your Password </label>
-                                <input type="password" onChange={obj => setPassword(obj.target.value)} className="form-control" />
-                                <small className="text-danger"> {passwordError} </small>
+                            <div className="card-body border-0">
+                                <div className="mb-3">
+                                    <label> Your Email Id </label>
+                                    <input type="email" onChange={obj => setEmail(obj.target.value)} className="form-control" />
+                                    <small className="text-danger"> {emailError} </small>
+                                </div>
+                                <div className="mb-3">
+                                    <label> Your Password </label>
+                                    <input type="password" onChange={obj => setPassword(obj.target.value)} className="form-control" />
+                                    <small className="text-danger"> {passwordError} </small>
+                                </div>
                             </div>
-                        </div>
-                        <div className="card-footer text-center">
-                            <button disabled={myBtn} className="btn btn-danger" onClick={loginCheck}> Login <i className="fa fa-arrow-right"> </i></button>
+                            <div className="card-footer text-center">
+                                <button disabled={myBtn} className="btn btn-danger" type="submit"> Login <i className="fa fa-arrow-right"> </i></button>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <div className="col-lg-4"></div>
             </div>
+            </form>
         </div>
     )
 }

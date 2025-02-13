@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
+import HomePage from "../components/HomePage";
+// Importing toastify module
+import {ToastContainer, toast } from "react-toastify";
 
 const MyHome = () =>{
     let [allProduct, setProduct] = useState( [] );
@@ -52,7 +55,7 @@ const MyHome = () =>{
             fetch(url,postData)
             .then(res=>res.json())
             .then(pInfo=>{
-                alert(pInfo.pname + " - added in your cart !")
+                toast(pInfo.pname + " - added in your cart !")
             })
         }catch(error){
             alert("Technical Error, Try after Sometime")
@@ -61,6 +64,8 @@ const MyHome = () =>{
 
     return(
         <div className="container mt-4">
+            <HomePage/>
+            <ToastContainer/>
             <div className="row mb-5">
                 <div className="col-lg-2"> </div>
                 <div className="col-lg-5 mb-2 text-center">
@@ -86,7 +91,7 @@ const MyHome = () =>{
                         if( product.pname.toLowerCase().includes(keyword.toLowerCase()) || product.pprice.toString().includes(keyword) )
                         return(
                             <div key={index} className="col-xl-3 mb-4">
-                                <div className="p-3 shadow">
+                                <div className="p-3 shadow-lg rounded homebg">
                                     <h4 className="text-primary mb-3"> {product.pname} </h4>
                                     
                                     <p className="mt-3"> <img src={product.photo} height="180px" width="100%" className="rounded"/> </p>

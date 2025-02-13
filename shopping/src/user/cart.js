@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+// Importing toastify module
+import {ToastContainer, toast } from "react-toastify";
 
 const MyCart = () =>{
     let [allProduct, setProduct] = useState( [] );
@@ -21,7 +23,7 @@ const MyCart = () =>{
         fetch(url, postData)
         .then(res=>res.json())
         .then(pArray=>{
-            alert(pArray.pname + " - Deleted Successfully !")
+            toast(pArray.pname + " - Deleted Successfully !")
             getProduct();
         })
     }
@@ -66,7 +68,7 @@ const MyCart = () =>{
         
         let url = "http://localhost:1234/orderapi";
         let postData = {
-            headers:{"content-type":"applicatiob/json"},
+            headers:{"content-type":"application/json"},
             method:"post",
             body:JSON.stringify(customer)
         }
@@ -88,7 +90,7 @@ const MyCart = () =>{
 
     return(
         <div className="container">
-            
+            <ToastContainer/>
             <div className="row">
                     <div className="col-lg-4 mt-3">  
                 <form onSubmit={save}>

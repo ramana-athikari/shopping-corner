@@ -87,7 +87,7 @@ const NewProduct = () => {
                     </div>
                     <div className="col-lg-4 mb-4">
                         <p> Product Photo URL <small className="text-danger fs-5"> * </small> </p>
-                        <input type="text" className="form-control" name="photo" onChange={pickValue} />
+                        <input type="url" className="form-control" name="photo" onChange={pickValue} />
                         <small className="text-danger"> {photoError} </small>
                     </div>
                     <div className="col-lg-12 mb-4">

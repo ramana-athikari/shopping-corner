@@ -21,10 +21,14 @@ const MyFooter = () =>{
                     </div>
                     <div className="col-xl-3">
                         <h5 className="text-warning"> Follow Us On </h5>
-                        <p id="cursor"> <i className="fa fab fa-facebook p-1 facebook rounded">  </i> www.facebook.com </p>
-                        <p id="cursor"> <i className="fa fab fa-instagram p-1 insta rounded">  </i> www.instagram.com </p>
-                        <p id="cursor"> <i className="fa fab fa-youtube p-1 youtube rounded">  </i> www.youtube.com </p>
-                        <p id="cursor"> <i className="fa fab fa-linkedin p-1 linkedin rounded">  </i> www.linkedin.com </p>
+                        <span className="me-2"> <i className="fa fab fa-facebook p-1 facebook rounded"> </i> </span>
+                        <span className="me-2"> <i className="fa fab fa-instagram p-1 insta rounded"> </i> </span>
+                        <span className="me-2"> <i className="fa fab fa-youtube p-1 youtube rounded"> </i> </span>
+                        <span className="me-2"> <i className="fa fab fa-linkedin p-1 linkedin rounded"> </i> </span> 
+                        {/* <p id="cursor">  www.facebook.com </p>
+                        <p id="cursor">  www.instagram.com </p>
+                        <p id="cursor">  www.youtube.com </p>
+                        <p id="cursor"> www.linkedin.com </p> */}
                     </div>
                 </div>
             </div>

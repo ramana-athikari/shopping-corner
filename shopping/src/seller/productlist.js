@@ -41,7 +41,7 @@ const MyProduct = () =>{
 
     let [keyword, setKeyword] = useState("");
 
-    const PER_PAGE = 5; //displays 5 items/records per page
+    const PER_PAGE = 6; //displays 5 items/records per page
     const [currentPage, setCurrentPage] = useState(0);
     function handlePageClick({ selected: selectedPage }) {
       setCurrentPage(selectedPage)

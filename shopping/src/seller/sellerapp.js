@@ -12,11 +12,11 @@ const SellerModule = () => {
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <Link className="navbar-brand" href="#"> Shopping </Link>
+                    <Link className="navbar-brand" href="#"> <i className="fa fa-bag-shopping me-2">  </i> Shopping </Link>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item me-4">
-                                <Link className="nav-link active" to="/"> <i className="fa fa-cogs"> </i> DashBoard </Link>
+                                <Link className="nav-link active" to="/dashboard"> <i className="fa fa-cogs"> </i> DashBoard </Link>
                             </li>
                             <li className="nav-item me-4">
                                 <Link className="nav-link active" to="/inventary"> <i className="fa fa-database"> </i> Inventary </Link>
@@ -27,8 +27,8 @@ const SellerModule = () => {
                             <li className="nav-item me-4">
                                 <Link className="nav-link active" to="/order"> <i className="fa fa-headset"> </i> Manage Order </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link text-warning" onClick={logout}> Welcome - {localStorage.getItem("sellerName")} - <i className="fa fa-power-off"> </i> Logout </Link>
+                            <li className="nav-item text-white">
+                                Welcome - {localStorage.getItem("sellerName")} - <button onClick={logout} className="btn btn-warning"> <i className="fa fa-power-off"> </i> Logout </button> 
                             </li>
                         </ul>
                     </div>
@@ -36,7 +36,7 @@ const SellerModule = () => {
             </nav>
         
             <Routes>
-                <Route exact path="/" element={<SellerHome/>} />
+                <Route exact path="/dashboard" element={<SellerHome/>} />
                 <Route exact path="/inventary" element={<ManageProduct/>} />
                 <Route exact path="/new-inventary" element={<NewProduct/>} />
                 <Route exact path="/order" element={<ManageOrder/>} />
@@ -49,8 +49,9 @@ const SellerModule = () => {
 export default SellerModule;
 
 const logout = () => {
-    localStorage.clear();
-    window.location.href="/#/login";
+    localStorage.removeItem("sellerId");
+    localStorage.removeItem("sellerName");
+    window.location.href="/#/";
     window.location.reload();
 } 
 
