@@ -2,3 +2,4 @@ npm install bootstrap
 npm install sweetalert
 npm install react-router-dom
 npm install react-paginate
+npm install react-toastify
