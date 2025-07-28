@@ -1,5 +1,5 @@
 
-const HomePage = () =>{
+const CarouselPage = () =>{
     return(
         <div id="carouselExampleDark" className="carousel carousel-white slide my-4" data-bs-ride="carousel">
             <div className="carousel-indicators">
@@ -8,7 +8,7 @@ const HomePage = () =>{
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div className="carousel-inner">
-                <div className="carousel-item active" data-bs-interval="10000">
+                <div className="carousel-item active" data-bs-interval="3000">
                 <img src="7.jpg" className="d-block w-100" height={300} alt="..."/>
                 <div className="carousel-caption d-none d-md-block">
                     <h5>First slide label</h5>
@@ -42,4 +42,4 @@ const HomePage = () =>{
     )
 };
 
-export default HomePage;
+export default CarouselPage;

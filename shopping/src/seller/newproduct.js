@@ -1,108 +1,124 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const NewProduct = () => {
-    let [productInfo, updateInfo] = useState({});
-    let [nameError, setNameError] = useState("");
-    let [priceError, setPriceError] = useState("");
-    let [photoError, setPhotoError] = useState("");
-    let [detailsError, setDetailsError] = useState("");
+    const [productInfo, setProductInfo] = useState({});
+    const [nameError, setNameError] = useState("");
+    const [priceError, setPriceError] = useState("");
+    const [photoError, setPhotoError] = useState("");
+    const [detailsError, setDetailsError] = useState("");
 
-    const pickValue = (obj) => {
-        productInfo[obj.target.name] = obj.target.value;
-        updateInfo(productInfo);
-    }
+    const pickValue = (e) => {
+        setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
+    };
 
-    const save = (obj) => {
-        obj.preventDefault(); // it protect from page refresh
+    const handleImage = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProductInfo({ ...productInfo, photo: reader.result });
+            };
+            reader.readAsDataURL(file); // convert to base64
+        }
+    };
+
+    const save = (e) => {
+        e.preventDefault();
+
         let formStatus = true;
-        if (!productInfo.pname || productInfo.pname == "") {
+
+        if (!productInfo.pname || productInfo.pname === "") {
             setNameError("Enter Product Name !");
             formStatus = false;
         } else {
             setNameError("");
         }
 
-        // price validation
-
-        if (!productInfo.pprice || productInfo.pprice == "" || isNaN(productInfo.pprice)) {
+        if (!productInfo.pprice || isNaN(productInfo.pprice)) {
             setPriceError("Enter Valid Price !");
             formStatus = false;
         } else {
             setPriceError("");
         }
 
-        // url validation
-
-        if (!productInfo.photo || productInfo.photo == "") {
-            setPhotoError("Enter Photo URL !");
+        if (!productInfo.photo) {
+            setPhotoError("Upload Product Image !");
             formStatus = false;
         } else {
             setPhotoError("");
         }
 
-        // product details validation
-
-        if (!productInfo.pdetails || productInfo.pdetails == "") {
+        if (!productInfo.pdetails || productInfo.pdetails === "") {
             setDetailsError("Enter Product Details !");
             formStatus = false;
         } else {
             setDetailsError("");
         }
 
-        if (formStatus == true) {
-            let url = "http://localhost:1234/productapi";
-            let postdata = {
-                headers: { "content-type": "application/json" },
-                method: "post",
-                body: JSON.stringify(productInfo)
-            }
+        if (formStatus) {
+            const sellerId = localStorage.getItem("sellerId");
+            const dataToSend = { ...productInfo, sellerId };
 
-            fetch(url, postdata)
-                .then(res => res.json())
-                .then(info => {
-                    updateInfo({});
-                    alert(productInfo.pname + " Saved Successfully !");
-                    obj.target.reset(); // it will clear the form
+            fetch("http://localhost:1234/productapi", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dataToSend),
+            })
+                .then((res) => res.json())
+                .then((info) => {
+                    setProductInfo({});
+                    toast.success(productInfo.pname + " Saved Successfully !",{autoClose:2000});
+                    e.target.reset();
                 })
+                .catch((err) => {
+                    console.error("Error:", err);
+                    alert("Server error while saving product.");
+                });
         }
-    }
+    };
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-4 container-body-seller">
             <form onSubmit={save}>
                 <div className="row">
                     <div className="col-lg-12 text-center mb-3">
-                        <h3 className="text-info"> Enter Product Details </h3>
-                        <small className="text-danger"> The * Marked fields are mandatory </small>
+                        <h3 className="text-info">Enter Product Details</h3>
+                        <small className="text-danger">The * Marked fields are mandatory</small>
                     </div>
+
                     <div className="col-lg-4 mb-4">
-                        <p> Product Name <small className="text-danger fs-5"> * </small> </p>
+                        <p>Product Name <small className="text-danger fs-5"> *</small></p>
                         <input type="text" className="form-control" name="pname" onChange={pickValue} />
-                        <small className="text-danger"> {nameError} </small>
+                        <small className="text-danger">{nameError}</small>
                     </div>
+
                     <div className="col-lg-4 mb-4">
-                        <p> Product Price <small className="text-danger fs-5"> * </small> </p>
+                        <p>Product Price <small className="text-danger fs-5"> *</small></p>
                         <input type="number" className="form-control" name="pprice" onChange={pickValue} />
-                        <small className="text-danger"> {priceError} </small>
+                        <small className="text-danger">{priceError}</small>
                     </div>
+
                     <div className="col-lg-4 mb-4">
-                        <p> Product Photo URL <small className="text-danger fs-5"> * </small> </p>
-                        <input type="url" className="form-control" name="photo" onChange={pickValue} />
-                        <small className="text-danger"> {photoError} </small>
+                        <p>Product Image <small className="text-danger fs-5"> *</small></p>
+                        <input type="file" accept="image/*" className="form-control" onChange={handleImage} />
+                        <small className="text-danger">{photoError}</small>
                     </div>
+
                     <div className="col-lg-12 mb-4">
-                        <p> Product Discription <small className="text-danger fs-5"> * </small> </p>
-                        <textarea className="form-control" name="pdetails" onChange={pickValue}>  </textarea>
-                        <small className="text-danger"> {detailsError} </small>
+                        <p>Product Description <small className="text-danger fs-5"> *</small></p>
+                        <textarea className="form-control" name="pdetails" onChange={pickValue}></textarea>
+                        <small className="text-danger">{detailsError}</small>
                     </div>
+
                     <div className="col-lg-12 text-center">
-                        <button className="btn btn-success m-2" type="submit"> Save Product </button>
-                        <button className="btn btn-warning m-2" type="reset"> Clear All </button>
+                        <button className="btn btn-success m-2" type="submit">Save Product</button>
+                        <button className="btn btn-warning m-2" type="reset">Clear All</button>
                     </div>
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default NewProduct;

@@ -1,16 +1,3 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
 
 .mypointer{
   cursor:pointer !important;
@@ -19,7 +6,7 @@ code {
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css);
 
 .card{
-  background-color:aliceblue;
+  background-color:floralwhite;
   height:fit-content;
 }
 
@@ -29,8 +16,8 @@ code {
 }
 
 .facebook{
-  background-color:blue;
-  color: white;
+  background-color:white;
+  color: blue;
 }
 
 #cursor{
@@ -38,17 +25,18 @@ code {
 }
 
 .youtube{
-  background-color:red;
-  color: white;
+  background-color:white;
+  color: red;
 }
 
 .linkedin{
-  background-color:darkblue;
-  color: white;
+  background-color:white;
+  color: darkblue;
 }
 
 .mybg{
-  background-color: darkmagenta;
+  /* background-color: rgb(197, 8, 197); */
+  background-color:mediumvioletred;
   color: white;
 }
 
@@ -57,5 +45,17 @@ code {
 }
 
 .hover:focus{
-  color: cyan !important;
+  color:cyan !important;
+}
+
+.container-body-seller {
+  min-height: 555px;
+  display: flex;
+  justify-content: center;  /* horizontal centering */
+  align-items: center;      /* vertical centering */
+}
+
+.container-body-user {
+  min-height: 550px;
+  align-content: center;
 }

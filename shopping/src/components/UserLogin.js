@@ -1,105 +1,135 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const UserLogin = () =>{
+const UserLogin = () => {
+
+    let navigate = useNavigate();
 
     // login credetials 
 
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     // email and password validation 
 
     let [emailError, setEmailError] = useState("");
     let [passwordError, setPasswordError] = useState("");
 
-    let [message,setMessage] = useState("Enter Login Details !");
+    let [message, setMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-
-    const LoginCheck = (obj) =>{
-
+    const LoginCheck = async (obj) => {
         obj.preventDefault();
 
         let formStatus = true;
 
         let epattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-        //      mohit.mca209@gmail.com
-        //      username + @ + domainname + . + extension
 
-        if(!epattern.test(email)){
-            setEmailError("Enter Email Id");
+        if (!epattern.test(email)) {
+            setEmailError("Enter valid Email Id");
             formStatus = false;
-        }else{
+        } else {
             setEmailError("");
-        };
-    
-        if(password === ""){
-            setPasswordError("Enter Password Id");
+        }
+
+        if (password === "") {
+            setPasswordError("Enter Password");
             formStatus = false;
-        }else{
+        } else {
             setPasswordError("");
-        };
+        }
 
-        if(formStatus == false){
+        if (formStatus === false) {
             setMessage("Enter Login Details !");
-        }else{
-            try {
-                setMessage("Please Wait Processing...");
-                fetch("http://localhost:1234/customerapi")
-                .then(res => res.json())
-                .then(userInfo=>{
-                    let loginStatus = false;
-                    for (let i=0; i<userInfo.length; i++ ){
-                        let user = userInfo[i];
-                        if(user.email == email && user.password == password){
-                            loginStatus = true;
-                            localStorage.setItem("userId", user.id);
-                            localStorage.setItem("userName", user.fullname);
-                            window.location.href="/#/";
-                            window.location.reload();
-                        }
-                    }
+            return; // exit early, no loading state set
+        }
 
-                    if(loginStatus == false){
-                        setMessage("Invalid Login Credentials !");
-                    }
-                });
-            } catch (error) {
-                console.error();
+        // Validation passed — now start loading
+        setIsLoading(true);
+        setMessage("Please Wait Processing...");
+
+        try {
+            const res = await fetch("http://localhost:1234/customerapi");
+            const userInfo = await res.json();
+
+            let loginStatus = false;
+            for (let user of userInfo) {
+                if (user.email === email && user.password === password) {
+                    loginStatus = true;
+                    localStorage.setItem("userId", user.id);
+                    localStorage.setItem("userName", user.fullname);
+
+                    toast.success(`Hi! ${user.fullname} 👋`, { autoClose: 1000 });
+
+                    navigate("/");
+
+                    setTimeout(() => {
+                        window.location.reload(); // gives time for toast to show
+                    }, 1600);
+
+                    break;
+                }
             }
+
+            if (!loginStatus) {
+                setMessage("Invalid Login Credentials !");
+            }
+        } catch (error) {
+            // console.error(error);
+            setMessage("An error occurred, please try again.");
+        } finally {
+            setIsLoading(false);
         }
     }
 
-    return(
-        <div className="container mt-3">
-            <marquee className="text-center text-danger fs-5 mb-5" direction="left"> 
-                Welcome to the Shopping Portal, Please Login to buy the Products 
-            </marquee>
+    return (
+        <div className="container mt-5">
+            {/* <marquee className="text-center text-danger fs-5 mb-5" direction="left">
+                Welcome to the Shopping Portal, Please Login to buy the Products
+            </marquee> */}
             <form onSubmit={LoginCheck}>
                 <div className="row">
                     <div className="col-lg-4"></div>
                     <div className="col-lg-4">
                         <div className="card">
-                            <div className="card-header text-center fs-5">
-                                User Login
-                            </div>
                             <div className="card-body">
+                                <h4 className="text-center fs-4 mb-2">
+                                    User Login
+                                </h4>
                                 <div className="text-center mb-4"> <i className="fa-regular fa-user fa-3x"> </i> </div>
-                                <div className="text-center text-danger"> {message} </div>
-                                <div> 
+                                <p className="text-center text-danger"> {message} </p>
+                                <div>
                                     <label> Email </label>
-                                    <input type="email" placeholder="enter email id" onChange={obj=>setEmail(obj.target.value)} name={email} className="form-control mb-2"/>
-                                    <em className="text-danger"> {emailError} </em> 
+                                    <input type="email" placeholder="enter email id" onChange={obj => setEmail(obj.target.value)} name={email} className="form-control mb-2" />
+                                    <small className="text-danger"> {emailError} </small>
                                 </div>
                                 <div>
                                     <label> Password </label>
-                                    <input type="password" placeholder="enter password" onChange={obj=>setPassword(obj.target.value)} name={password} className="form-control"/> 
-                                    <em className="text-danger"> {passwordError} </em> 
+                                    <div className="input-group">
+                                        <input type={showPassword ? "text" : "password"} placeholder="enter password" onChange={obj => setPassword(obj.target.value)} name={password} className="form-control" />
+                                        <span
+                                            className="input-group-text"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            <i className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"}`}> </i>
+                                        </span>
+                                    </div>
+                                    <small className="text-danger"> {passwordError} </small>
                                 </div>
-                            </div>
-                            <div className="card-footer text-center">
-                                <button className="btn btn-success mb-2" type="submit"> Submit </button>
-                                <p> New Customer ? <Link to="/signup" className="text-decoration-none text-primary"> Sign Up </Link> </p>
+                                <div className="text-center mt-4">
+                                    {/* <button className="btn btn-success mb-2 w-50" type="submit"> Submit </button> */}
+                                    <button
+                                        className="btn btn-success mb-2 w-50"
+                                        type="submit"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? "Loading..." : "Submit"}
+                                    </button>
+                                    <p> New Customer ? <Link to="/UserSignUp" className="text-decoration-none fw-bold"> Sign Up </Link> </p>
+                                </div>
                             </div>
                         </div>
                     </div>
