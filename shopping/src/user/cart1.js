@@ -32,7 +32,28 @@ const MyCart = () => {
         fetch(`http://localhost:1234/cartapi?userId=${userId}`)
             .then(response => response.json())
             .then(cartItems => {
-                setproduct(cartItems); // No reduce, just show all items in cart
+                const mergedItems = [];
+
+                cartItems.forEach(item => {
+                    const existingIndex = mergedItems.findIndex(p =>
+                        p.pname === item.pname &&
+                        p.pprice === item.pprice &&
+                        p.photo === item.photo &&
+                        p.sellerId === item.sellerId
+                    );
+
+                    if (existingIndex >= 0) {
+                        mergedItems[existingIndex].qty += item.qty;
+                        mergedItems[existingIndex].mergedIds.push(item.id); // Track IDs
+                    } else {
+                        mergedItems.push({
+                            ...item,
+                            mergedIds: [item.id]  // Store all merged ids
+                        });
+                    }
+                });
+
+                setproduct(mergedItems);
             });
     };
 
@@ -59,7 +80,7 @@ const MyCart = () => {
         fetch(`http://localhost:1234/cartapi/${id}`, { method: "delete" })
             .then(response => response.json())
             .then(delinfo => {
-                setmsg((delinfo?.pname || "Product") + " deleted Successfully!");
+                // setmsg((delinfo?.pname || "Product") + " deleted Successfully!");
                 getproduct();
             });
     };

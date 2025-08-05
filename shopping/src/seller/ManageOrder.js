@@ -76,7 +76,7 @@ const ManageOrder = () => {
                     <>
                         <div className="row mb-5">
                             <div className="col-lg-12 mb-2">
-                                <h1 className="text-center text-success"> Manage Order : {allOrder.length} </h1>
+                                <h2 className="text-center text-success"> Manage Order : {allOrder.length} </h2>
                             </div>
                             {
                                 allOrder

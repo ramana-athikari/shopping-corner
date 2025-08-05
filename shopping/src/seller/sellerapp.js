@@ -7,6 +7,8 @@ import SellerLogin from "../components/SellerLogin";
 import CreateSellerAccount from "../components/SellerSignup";
 import SellerNavbar from "./SellerNavbar";
 import MyFooter from "./SellerFooter";
+import EditSellerProfile from "./EditSellerProfile";
+import ChangeSellerPassword from "./SellerPasswordManager";
 
 const SellerModule = () => {
 
@@ -22,6 +24,8 @@ const SellerModule = () => {
                 <Route exact path="/inventary" element={<ManageProduct />} />
                 <Route exact path="/new-inventary" element={<NewProduct />} />
                 <Route exact path="/order" element={<ManageOrder />} />
+                <Route exact path="/edit-profile" element={<EditSellerProfile />} />
+                <Route exact path="/change-password" element={<ChangeSellerPassword />} />
             </Routes>
 
             <MyFooter/>

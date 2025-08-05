@@ -62,7 +62,7 @@ const SellerLogin = () => {
                     // window.location.href = "#/";
                     // window.location.reload();
 
-                    toast.success(`Hi! ${seller.fullName}`, { autoClose: 1500 });
+                    toast.success(`Hi! ${seller.fullName}`, { autoClose: 1000 });
 
                     navigate("/");
 

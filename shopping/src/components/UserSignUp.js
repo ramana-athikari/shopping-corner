@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 
 const UserSignUp = () => {
@@ -111,6 +111,7 @@ const UserSignUp = () => {
 
     return (
         <div className="container mt-5">
+        <ToastContainer/>
             <form onSubmit={registerUser}>
                 <div className="row">
                     <div className="col-lg-4"></div>

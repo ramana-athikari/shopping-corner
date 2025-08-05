@@ -67,7 +67,7 @@ const UserLogin = () => {
 
                     setTimeout(() => {
                         window.location.reload(); // gives time for toast to show
-                    }, 1600);
+                    }, 1000);
 
                     break;
                 }

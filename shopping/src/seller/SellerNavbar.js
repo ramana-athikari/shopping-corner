@@ -11,6 +11,7 @@ const SellerNavbar = () => {
         localStorage.removeItem("sellerName");
         localStorage.removeItem("sellerId");
         navigate("/"); // Redirect to the dashboard page
+        window.location.reload();
     };
 
 
@@ -58,11 +59,11 @@ const SellerNavbar = () => {
                                     </Link>
 
                                     <ul className="dropdown-menu  dropdown-menu-start" aria-labelledby="profileDropdown">
-                                        <li>
+                                        {/* <li>
                                             <Link className="dropdown-item" to="/seller-profile">
                                                 <i className="fa fa-id-badge me-2" /> View Profile
                                             </Link>
-                                        </li>
+                                        </li> */}
                                         <li>
                                             <Link className="dropdown-item" to="/edit-profile">
                                                 <i className="fa fa-edit me-2" /> Edit Profile

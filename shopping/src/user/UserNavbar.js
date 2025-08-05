@@ -85,11 +85,11 @@ const UserHeader = () => {
                   <i className="fa fa-user-circle me-1"></i> {userName}
                 </Link>
                 <ul className="dropdown-menu dropdown-menu-start">
-                  <li>
+                  {/* <li>
                     <Link className="dropdown-item" to="/user-profile">
                       <i className="fa fa-user me-2"></i> View Profile
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link className="dropdown-item" to="/edit-profile">
                       <i className="fa fa-edit me-2"></i> Edit Profile

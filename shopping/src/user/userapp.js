@@ -7,6 +7,8 @@ import UserHeader from "./UserNavbar";
 import MyCart from "./cart1";
 import UserLogin from "../components/UserLogin";
 import UserSignUp from "../components/UserSignUp";
+import ChangePassword from "./UserPasswordManager";
+import EditUserProfile from "./EditUserProfile";
 
 const UserModule = () => {
 
@@ -19,6 +21,8 @@ const UserModule = () => {
                 <Route exact path="/cart1" element={<MyCart />} />
                 <Route exact path="/UserLogin" element={<UserLogin/>}/>
                 <Route exact path="/UserSignUp" element={<UserSignUp/>}/>
+                <Route exact path="/change-password" element={<ChangePassword/>}/>
+                <Route exact path="/edit-profile" element={<EditUserProfile/>}/>
             </Routes>
 
             <MyFooter />
