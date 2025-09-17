@@ -53,8 +53,8 @@ const MyCart = () => {
 
             setproduct(merged);
         } catch (e) {
-            // console.error(e);
-            toast.error("Failed to load cart.", {autoClose:1500});
+            console.error(e);
+            // toast.error("Failed to load cart.", {autoClose:1500});
         }
     };
 

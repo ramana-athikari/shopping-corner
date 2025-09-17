@@ -72,7 +72,7 @@ const ManageOrder = () => {
     const handlePageClick = ({ selected: selectedPage }) => setCurrentPage(selectedPage);
 
     return (
-        <div className="container mt-4 container-body-seller">
+        <div className="container mt-4">
             {allOrder.length === 0 ? (
                 <div className="text-center text-muted">
                     <h4>No Orders available</h4>
