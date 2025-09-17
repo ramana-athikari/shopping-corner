@@ -29,29 +29,3 @@ function App() {
 }
 
 export default App;
-
-
-
-// import Authentication from "./components/Authentication";
-// import SellerModule from "./seller/sellerapp";
-// import UserModule from "./user/userapp";
-// import { ToastContainer } from "react-toastify";
-
-// function App() {
-
-//   if(localStorage.getItem("userId") == null){
-//     return(<Authentication/>);
-//   }
-//   else if(localStorage.getItem("sellerId") == null){
-//     return(<UserModule/>);
-    
-//   }
-//   else{
-//     return(<SellerModule/>);
-//   }
-
-//   <ToastContainer/>
-  
-// }
-
-// export default App;
