@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const ChangeSellerPassword = () => {
     const [form, setForm] = useState({
         currentPassword: "",
@@ -38,7 +40,7 @@ const ChangeSellerPassword = () => {
 
         try {
             // 1. Fetch seller by ID
-            const resUser = await fetch(`http://localhost:1234/api/seller/${sellerId}`);
+            const resUser = await fetch(`${API_BASE}/api/seller/${sellerId}`);
             const seller = await resUser.json();
 
             if (!resUser.ok) {
@@ -47,7 +49,7 @@ const ChangeSellerPassword = () => {
             }
 
             // 2. Update password
-            const updateRes = await fetch(`http://localhost:1234/api/seller/${sellerId}/password`, {
+            const updateRes = await fetch(`${API_BASE}/api/seller/${sellerId}/password`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

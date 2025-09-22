@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const MyDashboard = () => {
     const [allProduct, setProduct] = useState([]);
     const [allOrder, setOrder] = useState([]);
@@ -11,7 +13,7 @@ const MyDashboard = () => {
     const getProduct = async (sellerId) => {
         try {
             setLoadingProducts(true);
-            const res = await fetch(`http://localhost:1234/api/product?sellerId=${sellerId}`);
+            const res = await fetch(`${API_BASE}/api/product?sellerId=${sellerId}`);
             if (!res.ok) throw new Error("Failed to fetch products");
             const pArray = await res.json();
             setProduct(pArray);
@@ -26,7 +28,7 @@ const MyDashboard = () => {
     const getOrder = async (sellerId) => {
         try {
             setLoadingOrders(true);
-            const res = await fetch(`http://localhost:1234/api/order?sellerId=${sellerId}`);
+            const res = await fetch(`${API_BASE}/api/order?sellerId=${sellerId}`);
             if (!res.ok) throw new Error("Failed to fetch orders");
             const orderArray = await res.json();
             setOrder(orderArray);

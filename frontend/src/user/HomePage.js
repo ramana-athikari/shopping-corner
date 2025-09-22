@@ -3,6 +3,10 @@ import ReactPaginate from "react-paginate";
 import CarouselPage from "./AdvertisementPage";
 import { ToastContainer, toast } from "react-toastify";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
+// const API_BASE = "http://localhost:1234";
+
 const ProductList = () => {
     const [allProduct, setProduct] = useState([]);
     const [order, setOrder] = useState("asc");
@@ -22,7 +26,7 @@ const ProductList = () => {
 
     // Fetch products
     const getProduct = () => {
-        fetch("http://localhost:1234/api/product")
+        fetch(`${API_BASE}/api/product`)
             .then(res => res.json())
             .then(productArray => {
                 const sortedProducts = [...productArray].sort((a, b) =>
@@ -31,6 +35,7 @@ const ProductList = () => {
                 setProduct(sortedProducts);
             })
             .catch(() => {
+                // console.log(error);
                 toast.error("Failed to fetch products!", { autoClose: 1500 });
             });
     };
@@ -60,7 +65,7 @@ const ProductList = () => {
             qty: 1
         };
 
-        fetch("http://localhost:1234/api/cart", {
+        fetch(`${API_BASE}/api/cart`, {
             headers: { "Content-Type": "application/json" },
             method: "POST",
             body: JSON.stringify(cartItem)
@@ -116,7 +121,7 @@ const ProductList = () => {
                                 <h4 className="text-primary mb-3">{product.name}</h4>
                                 <p className="mt-3 text-center">
                                     <img
-                                        src={`http://localhost:1234${product.image}`}
+                                        src={`${API_BASE}${product.image}`}
                                         alt={product.name}
                                         height="100px"
                                         width="150px"

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const ManageProduct = () => {
     let [allProduct, setProduct] = useState([]);
     let [orderIcon, setIcon] = useState("fa fa-arrow-up");
@@ -12,7 +14,7 @@ const ManageProduct = () => {
             const sellerId = localStorage.getItem("sellerId"); // Get logged-in sellerId
             // console.log("Fetching products for sellerId:", sellerId);
 
-            const response = await fetch(`http://localhost:1234/api/product?sellerId=${sellerId}`);
+            const response = await fetch(`${API_BASE}/api/product?sellerId=${sellerId}`);
             const productArray = await response.json();
 
             let sortedProducts = [...productArray];
@@ -35,18 +37,21 @@ const ManageProduct = () => {
 
 
     const delPro = (_id) => {
-        let url = "http://localhost:1234/api/product/" + _id;
+        let url = `${API_BASE}/api/product/${_id}`;
         let postdata = { method: "delete" };
         fetch(url, postdata)
             .then(res => res.json())
             .then(pinfo => {
-                toast.success("Product deleted successfully !", {autoClose:1500});
+                toast.success("Product deleted successfully !", { autoClose: 1500 });
                 getProduct(); // reload the list after delete
             })
     }
 
     useEffect(() => {
-        getProduct();
+        const sellerId = localStorage.getItem("sellerId");
+        if (sellerId) {
+            getProduct(sellerId);
+        }
     }, [])
 
     let [keyword, setKeyword] = useState("");
@@ -114,7 +119,7 @@ const ManageProduct = () => {
                                                 <td>{product.description}</td>
                                                 <td>
                                                     <img
-                                                        src={`http://localhost:1234${product.image}`}
+                                                        src={`${API_BASE}${product.image}`}
                                                         alt={product.name}
                                                         height="50"
                                                         width="70"

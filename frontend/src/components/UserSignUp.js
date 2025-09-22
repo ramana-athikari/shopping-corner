@@ -2,6 +2,8 @@ import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const UserSignUp = () => {
     // "userName": "A. RAMANA",
     // "userEmail": "a@gmail.com",
@@ -69,7 +71,7 @@ const UserSignUp = () => {
         }
 
         if (formStatus === true) {
-            const url = "http://localhost:1234/api/user/signup";
+            const url = `${API_BASE}/api/user/signup`;
             const postData = {
                 headers: { "Content-Type": "application/json" },
                 method: "POST",

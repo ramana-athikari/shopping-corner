@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-const API_BASE = "http://localhost:1234";
+const API_BASE = process.env.REACT_APP_API_URL;
 
 const MyCart = () => {
     const [allproduct, setproduct] = useState([]);
@@ -65,8 +65,14 @@ const MyCart = () => {
     const hasFetched = useRef(false);
 
     useEffect(() => {
-        if (!hasFetched.current) {
-            getproduct();
+        // if (!hasFetched.current) {
+        //     getproduct();
+        //     hasFetched.current = true;
+        // }
+
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+            getproduct(userId);
             hasFetched.current = true;
         }
     }, []);
@@ -331,11 +337,11 @@ const MyCart = () => {
                                 <div className="mb-2 row">
                                     <label>Payment Method:</label>
                                     {["UPI", "Cash"].map((m) => (
-                                        <div key={m} className="form-check col-lg-6">
+                                        <div key={m} className="form-check col-lg-6 mt-1">
                                             <input
                                                 type="radio"
                                                 id={m}
-                                                className="form-check-input"
+                                                className="form-check-input ms-1 me-1"
                                                 name="paymentMethod"
                                                 value={m}
                                                 checked={paymentMethod === m}

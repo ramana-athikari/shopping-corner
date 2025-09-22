@@ -35,5 +35,6 @@ app.use("/api/order", orderRoutes);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`)
+    // console.log(`Server is running on http://localhost:${PORT}`)
+    console.log(`Server is running on https://shopping-corner-w6x5.onrender.com:${PORT}`)
 })

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const EditSellerProfile = () => {
     const [form, setForm] = useState({
         fullName: "",
@@ -18,7 +20,7 @@ const EditSellerProfile = () => {
             return;
         }
 
-        fetch(`http://localhost:1234/api/seller/${sellerId}`)
+        fetch(`${API_BASE}/api/seller/${sellerId}`)
             .then((res) => res.json())
             .then((data) => {
                 setForm({
@@ -52,7 +54,7 @@ const EditSellerProfile = () => {
             return;
         }
 
-        const res = await fetch(`http://localhost:1234/api/seller/${sellerId}`, {
+        const res = await fetch(`${API_BASE}/api/seller/${sellerId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"

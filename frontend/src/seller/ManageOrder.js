@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import Swal from "sweetalert2";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const ManageOrder = () => {
     const [allOrder, setOrder] = useState([]);
     const PER_PAGE = 3;
@@ -14,7 +16,7 @@ const ManageOrder = () => {
         if (!sellerId) return;
 
         try {
-            const res = await fetch(`http://localhost:1234/api/order?sellerId=${sellerId}`);
+            const res = await fetch(`${API_BASE}/api/order?sellerId=${sellerId}`);
             let orders = await res.json();
 
             // Filter products per seller
@@ -50,7 +52,7 @@ const ManageOrder = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await fetch(`http://localhost:1234/api/order/${orderId}`, { method: 'DELETE' });
+                    const res = await fetch(`${API_BASE}/api/order/${orderId}`, { method: 'DELETE' });
                     const data = await res.json();
                     if (res.ok) {
                         Swal.fire("Deleted!", "Your order has been deleted.", "success");
@@ -116,7 +118,7 @@ const ManageOrder = () => {
                                             <td>{p.productId.name}</td>
                                             <td>
                                                 <img
-                                                    src={`http://localhost:1234${p.productId.image}`}  // add backend host
+                                                    src={`${API_BASE}${p.productId.image}`}  // add backend host
                                                     alt={p.productId.name}
                                                     height="50"
                                                     width="70"
@@ -125,12 +127,12 @@ const ManageOrder = () => {
                                             </td>
                                             <td>{p.productId.price}</td>
                                             <td>{p.qty}</td>
-                                            <td>{p.productId.price * p.qty}</td>
+                                            <td>{p.productId.price * p.qty} /-</td>
                                         </tr>
                                     ))}
                                     <tr>
                                         <td colSpan={4} className="text-end"><b>Order Total:</b></td>
-                                        <td><b>{order.totalPrice}</b></td>
+                                        <td><b> Rs. {order.totalPrice} /-</b></td>
                                     </tr>
                                 </tbody>
                             </table>

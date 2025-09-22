@@ -9,21 +9,21 @@ const CarouselPage = () =>{
             </div>
             <div className="carousel-inner">
                 <div className="carousel-item active" data-bs-interval="3000">
-                <img src="7.jpg" className="d-block w-100" height={300} alt="..."/>
+                <img src="electronics.jpg" className="d-block w-100" height={300} alt="..."/>
                 <div className="carousel-caption d-none d-md-block">
                     <h5>First slide label</h5>
                     <p>Some representative placeholder content for the first slide.</p>
                 </div>
                 </div>
                 <div className="carousel-item" data-bs-interval="2000">
-                <img src="1.webp" className="d-block w-100" height={300} alt="..."/>
+                <img src="fashion.jpg" className="d-block w-100" height={300} alt="..."/>
                 <div className="carousel-caption d-none d-md-block">
                     <h5>Second slide label</h5>
                     <p>Some representative placeholder content for the second slide.</p>
                 </div>
                 </div>
                 <div className="carousel-item">
-                <img src="2.webp" className="d-block w-100" height={300} alt="..."/>
+                <img src="grocery.jpg" className="d-block w-100" height={300} alt="..."/>
                 <div className="carousel-caption d-none d-md-block">
                     <h5>Third slide label</h5>
                     <p>Some representative placeholder content for the third slide.</p>

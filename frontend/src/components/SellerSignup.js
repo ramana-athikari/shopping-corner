@@ -2,6 +2,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const CreateSellerAccount = () => {
     let [fullName, setFullName] = useState("");
     let [email, setEmail] = useState("");
@@ -73,7 +75,7 @@ const CreateSellerAccount = () => {
                 mobile: mobile,
             };
 
-            const url = "http://localhost:1234/api/seller/signup";
+            const url = `${API_BASE}/api/seller/signup`;
             const postData = {
                 headers: { "Content-Type": "application/json" },
                 method: "POST",

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const ChangePassword = () => {
   const [form, setForm] = useState({
     currentPassword: "",
@@ -38,7 +40,7 @@ const ChangePassword = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:1234/api/user/${userId}/password`, {
+      const res = await fetch(`${API_BASE}/api/user/${userId}/password`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

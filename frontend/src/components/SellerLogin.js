@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const SellerLogin = () => {
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
@@ -47,7 +49,7 @@ const SellerLogin = () => {
         setIsLoading(true);
 
         try {
-            const res = await fetch("http://localhost:1234/api/seller/login", {
+            const res = await fetch(`${API_BASE}/api/seller/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
