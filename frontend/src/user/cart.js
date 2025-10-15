@@ -118,7 +118,7 @@ const MyCart = () => {
                         </div>
                     </form>
                 </div>
-                <div className="col-lg-8 mt-3 text-success" style={{ overflowX: "auto", maxHeight: "500px" }}>
+                <div className="col-lg-8 mt-3 text-success">
                     <div className="row mb-3">
                         <h3 className="text-center col-lg-8"> {allProduct.length} - Item in My Cart </h3>
                         <div className="col-lg-4">
@@ -129,45 +129,48 @@ const MyCart = () => {
                             />
                         </div>
                     </div>
-                    <table className="table table-bordered text-center">
-                        <thead className="table-warning">
-                            <tr>
-                                <th> Item Name </th>
-                                <th> Photo </th>
-                                <th> Price </th>
-                                <th> Quantity </th>
-                                <th> Total </th>
-                                <th> Action </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                allProduct.map((product, index) => {
-                                    totalcost = totalcost + (product.pprice * product.qty);
-                                    if (product.pname.toLowerCase().match(keyword.toLowerCase()) || product.pprice.toString().match(keyword))
-                                        return (
-                                            <tr key={index}>
-                                                <td> {product.pname} </td>
-                                                <td> <img src={product.photo} height="50px" width="70px" /> </td>
-                                                <td> {product.pprice} </td>
-                                                <td>
-                                                    <button onClick={obj => updateQty(product, "N")} className="btn btn-warning btn-sm me-2"> - </button>
-                                                    {product.qty}
-                                                    <button onClick={obj => updateQty(product, "Y")} className="btn btn-primary btn-sm ms-2"> + </button>
-                                                </td>
-                                                <td> {product.pprice * product.qty} </td>
-                                                <td> <button onClick={obj => delProduct(product.id)} className="btn btn-danger"> <i className="fa fa-trash"> </i> </button> </td>
-                                            </tr>
-                                        )
-                                })
-                            }
-                            <tr>
-                                <td colSpan={6} className="text-end pe-5">
-                                    <b> Total Price : Rs. {totalcost} /- </b>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    {/* Bootstrap responsive table wrapper */}
+                    <div className="table-responsive">
+                        <table className="table table-bordered text-center">
+                            <thead className="table-warning">
+                                <tr>
+                                    <th> Item Name </th>
+                                    <th> Photo </th>
+                                    <th> Price </th>
+                                    <th> Quantity </th>
+                                    <th> Total </th>
+                                    <th> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    allProduct.map((product, index) => {
+                                        totalcost = totalcost + (product.pprice * product.qty);
+                                        if (product.pname.toLowerCase().match(keyword.toLowerCase()) || product.pprice.toString().match(keyword))
+                                            return (
+                                                <tr key={index}>
+                                                    <td> {product.pname} </td>
+                                                    <td> <img src={product.photo} height="50px" width="70px" /> </td>
+                                                    <td> {product.pprice} </td>
+                                                    <td>
+                                                        <button onClick={obj => updateQty(product, "N")} className="btn btn-warning btn-sm me-2"> - </button>
+                                                        {product.qty}
+                                                        <button onClick={obj => updateQty(product, "Y")} className="btn btn-primary btn-sm ms-2"> + </button>
+                                                    </td>
+                                                    <td> {product.pprice * product.qty} </td>
+                                                    <td> <button onClick={obj => delProduct(product.id)} className="btn btn-danger"> <i className="fa fa-trash"> </i> </button> </td>
+                                                </tr>
+                                            )
+                                    })
+                                }
+                                <tr>
+                                    <td colSpan={6} className="text-end pe-5">
+                                        <b> Total Price : Rs. {totalcost} /- </b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
