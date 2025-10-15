@@ -10,6 +10,8 @@ const ChangeSellerPassword = () => {
         confirmPassword: ""
     });
 
+    let [isLoading, setIsLoading] = useState("");
+
     const [showPassword, setShowPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     // const [msg, setMsg] = useState("");
@@ -37,6 +39,8 @@ const ChangeSellerPassword = () => {
             toast.error("New passwords do not match");
             return;
         }
+        // Validation passed — now start loading
+        setIsLoading(true);
 
         try {
             // 1. Fetch seller by ID
@@ -69,12 +73,14 @@ const ChangeSellerPassword = () => {
         } catch (err) {
             console.error(err);
             toast.error("Server error, please try again later");
+        } finally{
+            setIsLoading(false);
         }
     };
 
 
     return (
-        <div className="container mt-4 col-lg-4">
+        <div className="container mt-4 col-lg-3 col-md-3">
             <ToastContainer />
             <form onSubmit={handleSubmit}>
                 <div className="card">
@@ -139,8 +145,8 @@ const ChangeSellerPassword = () => {
                             </div>
                         </div>
                         <div className="text-center">
-                            <button className="btn btn-primary" type="submit">
-                                Change Password
+                            <button className="btn btn-primary" type="submit" disabled={isLoading}>
+                                {isLoading ? "Loading..." : "Change Password"}
                             </button>
                         </div>
                     </div>

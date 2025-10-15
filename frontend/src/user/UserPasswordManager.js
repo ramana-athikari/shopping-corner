@@ -14,6 +14,7 @@ const ChangePassword = () => {
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,6 +40,9 @@ const ChangePassword = () => {
       return;
     }
 
+    // Validation passed — now start loading
+    setIsLoading(true);
+
     try {
       const res = await fetch(`${API_BASE}/api/user/${userId}/password`, {
         method: "PATCH",
@@ -60,11 +64,13 @@ const ChangePassword = () => {
     } catch (err) {
       console.error(err);
       toast.error("Server error, please try again later");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="container mt-4 col-lg-4">
+    <div className="container mt-4 col-lg-3">
       <ToastContainer />
       <form onSubmit={handleSubmit}>
         <div className="card">
@@ -141,8 +147,8 @@ const ChangePassword = () => {
             </div>
 
             <div className="text-center mt-3">
-              <button className="btn btn-primary" type="submit">
-                Change Password
+              <button className="btn btn-primary" type="submit" disabled={isLoading}>
+                {isLoading ? "Loading..." : "Change Password"}
               </button>
             </div>
           </div>

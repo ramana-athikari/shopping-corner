@@ -10,6 +10,8 @@ const EditSellerProfile = () => {
         mobile: ""
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const sellerId = localStorage.getItem("sellerId"); // assuming it's stored after login
 
     // Fetch current profile info
@@ -45,7 +47,6 @@ const EditSellerProfile = () => {
         }));
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -54,25 +55,34 @@ const EditSellerProfile = () => {
             return;
         }
 
-        const res = await fetch(`${API_BASE}/api/seller/${sellerId}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(form)
-        });
+        // Validation passed — now start loading
+        setIsLoading(true);
 
-        if (res.ok) {
-            toast.success("Profile updated successfully", { autoClose: 1500 });
-            // ✅ Update localStorage with new name
-            localStorage.setItem("sellerName", form.fullName);
-        } else {
-            toast.error("Failed to update profile");
+        try {
+            const res = await fetch(`${API_BASE}/api/seller/${sellerId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(form)
+            });
+
+            if (res.ok) {
+                toast.success("Profile updated successfully", { autoClose: 1500 });
+                // ✅ Update localStorage with new name
+                localStorage.setItem("sellerName", form.fullName);
+            } else {
+                toast.error("Failed to update profile");
+            }
+        } catch (error) {
+            toast.error("Something went wrong");
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="container mt-4 col-lg-4">
+        <div className="container mt-4 col-lg-3 col-md-3">
             <ToastContainer />
             <form onSubmit={handleSubmit}>
                 <div className="card">
@@ -112,8 +122,8 @@ const EditSellerProfile = () => {
                             />
                         </div>
                         <div className="text-center">
-                            <button className="btn btn-primary" type="submit">
-                                Save Changes
+                            <button className="btn btn-primary" type="submit" disabled={isLoading}>
+                                {isLoading ? "Loading..." : "Save Changes"}
                             </button>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ const EditUserProfile = () => {
         email: "",
         mobile: ""
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const userId = localStorage.getItem("userId"); // assuming it's stored after login
 
@@ -31,7 +32,7 @@ const EditUserProfile = () => {
             .catch(() => {
                 toast.error("Failed to load profile data");
             });
-    }, [userId]);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -41,28 +42,37 @@ const EditUserProfile = () => {
         }));
     };
 
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         if (!form.fullName || !form.email || !form.mobile) {
             toast.error("All fields are required");
             return;
         }
+        // Validation passed — now start loading
+        setIsLoading(true);
 
-        const res = await fetch(`http://localhost:1234/api/user/${userId}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(form)
-        });
+        try {
+            const res = await fetch(`${API_BASE}/api/user/${userId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(form)
+            });
 
-        if (res.ok) {
-            toast.success("Profile updated successfully", { autoClose: 1500 });
-            // ✅ Update localStorage with new name
-            localStorage.setItem("userName", form.fullName);
-        } else {
-            toast.error("Failed to update profile");
+            if (res.ok) {
+                toast.success("Profile updated successfully", { autoClose: 1500 });
+                // ✅ Update localStorage with new name
+                localStorage.setItem("userName", form.fullName);
+            } else {
+                toast.error("Failed to update profile");
+            }
+        } catch (error) {
+            toast.error("Something went wrong");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -100,7 +110,7 @@ const EditUserProfile = () => {
     // };
 
     return (
-        <div className="container mt-4 col-lg-4">
+        <div className="container mt-4 col-lg-3 col-md-3">
             <ToastContainer />
             <form onSubmit={handleSubmit}>
                 <div className="card">
@@ -140,8 +150,8 @@ const EditUserProfile = () => {
                             />
                         </div>
                         <div className="text-center">
-                            <button className="btn btn-primary" type="submit">
-                                Save Changes
+                            <button className="btn btn-primary" type="submit" disabled={isLoading}>
+                                {isLoading ? "Loading..." : "Save Changes"}
                             </button>
                         </div>
                     </div>

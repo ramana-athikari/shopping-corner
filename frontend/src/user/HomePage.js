@@ -11,6 +11,8 @@ const ProductList = () => {
     const [allProduct, setProduct] = useState([]);
     const [order, setOrder] = useState("asc");
     const [keyword, setKeyword] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const [currentPage, setCurrentPage] = useState(0);
     const PER_PAGE = 8;
 
@@ -26,6 +28,7 @@ const ProductList = () => {
 
     // Fetch products
     const getProduct = () => {
+        setLoading(true); // start loading
         fetch(`${API_BASE}/api/product`)
             .then(res => res.json())
             .then(productArray => {
@@ -35,8 +38,10 @@ const ProductList = () => {
                 setProduct(sortedProducts);
             })
             .catch(() => {
-                // console.log(error);
                 toast.error("Failed to fetch products!", { autoClose: 1500 });
+            })
+            .finally(() => {
+                setLoading(false); // stop loading
             });
     };
 
@@ -114,7 +119,14 @@ const ProductList = () => {
 
             {/* Product cards */}
             <div className="row mt-5">
-                {filteredProducts.length > 0 ? (
+                {loading ? (
+                    <div className="col-12 text-center mt-5">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                        <p className="mt-2 text-muted">Loading products...</p>
+                    </div>
+                ) : filteredProducts.length > 0 ? (
                     filteredProducts.slice(offset, offset + PER_PAGE).map((product, index) => (
                         <div key={product._id || index} className="col-lg-3 mb-4">
                             <div className="p-3 shadow-lg rounded-semi-circle homebg">
@@ -131,9 +143,7 @@ const ProductList = () => {
                                 <p className="mt-3 text-danger fs-5">
                                     <i className="fa fa-rupee text-primary"></i> {product.price} /-
                                 </p>
-                                <p className="mt-3">
-                                    {product.description?.slice(0, 30)}...
-                                </p>
+                                <p className="mt-3">{product.description?.slice(0, 30)}...</p>
                                 <p className="text-center mb-3">
                                     <button
                                         className="me-3 btn btn-warning btn-sm"
@@ -151,7 +161,6 @@ const ProductList = () => {
                     </div>
                 )}
             </div>
-
 
             {/* Pagination */}
             <div className="mt-4 text-center">

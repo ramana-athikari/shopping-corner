@@ -9,6 +9,7 @@ const MyCart = () => {
     const [upiQRCode, setUpiQRCode] = useState("");
     const [customer, setcustomer] = useState({});
     const formRef = useRef();
+    const [loading, setLoading] = useState(false);
 
     const imageUrl = (img) => (img?.startsWith("http") ? img : `${API_BASE}${img}`);
 
@@ -22,6 +23,7 @@ const MyCart = () => {
 
     const getproduct = async () => {
         try {
+            setLoading(true); // start loading
             const userId = localStorage.getItem("userId");
             const res = await fetch(`${API_BASE}/api/cart?userId=${userId}`);
             const cartItems = await res.json();
@@ -55,6 +57,8 @@ const MyCart = () => {
         } catch (e) {
             console.error(e);
             // toast.error("Failed to load cart.", {autoClose:1500});
+        } finally {
+            setLoading(false); // stop loading
         }
     };
 
@@ -213,168 +217,178 @@ const MyCart = () => {
     return (
         <div className="container mt-4 container-body-user">
             <ToastContainer />
-            {allproduct.length === 0 ? (
-                <div className="text-center text-muted">
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
-                        alt="Empty Cart"
-                        width="100"
-                        className="d-block mx-auto mt-4"
-                    />
-                    <p className="text-center text-muted mt-2">Your cart is empty.</p>
-                </div>
-            ) : (
-                <div className="row">
-                    <div className="col-lg-8 text-center">
-                        <h3>{allproduct.length} - Items in My Cart</h3>
-                        <table className="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Photo</th>
-                                    <th>Price</th>
-                                    <th>Qty</th>
-                                    <th>Total</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {allproduct.map((item) => {
-                                    const product = item.productId || {};
-                                    return (
-                                        <tr key={item._id}>
-                                            <td>{product.name || item.name || "No Name"}</td>
-                                            <td>
-                                                <img
-                                                    src={imageUrl(product.image || item.image)}
-                                                    alt={product.name || item.name || "No Image"}
-                                                    height="30"
-                                                    width="40"
-                                                />
-                                            </td>
-                                            <td>₹{Number(product.price || item.price || 0).toFixed(2)}</td>
-                                            <td>
-                                                <div className="d-flex justify-content-center align-items-center">
-                                                    <button
-                                                        className="btn btn-warning btn-sm me-2"
-                                                        onClick={() => updateQty(item, "N")}
-                                                    >
-                                                        -
-                                                    </button>
-                                                    {item.qty}
-                                                    <button
-                                                        className="btn btn-info btn-sm ms-2"
-                                                        onClick={() => updateQty(item, "Y")}
-                                                    >
-                                                        +
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                ₹{(Number(product.price || item.price || 0) * Number(item.qty)).toFixed(2)}
-                                            </td>
-                                            <td>
-                                                <button
-                                                    className="btn btn-danger btn-sm"
-                                                    onClick={() => removeFromCart(product._id || item._id)}
-                                                >
-                                                    <i className="fa fa-trash"></i>
-                                                </button>
+            {
+                loading ? (
+                    <div className="col-12 text-center mt-5">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                        <p className="mt-2 text-muted">Loading Cart...</p>
+                    </div>
+                ) :
+                    allproduct.length === 0 ? (
+                        <div className="text-center text-muted">
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+                                alt="Empty Cart"
+                                width="100"
+                                className="d-block mx-auto mt-4"
+                            />
+                            <p className="text-center text-muted mt-2">Your cart is empty.</p>
+                        </div>
+                    ) : (
+                        <div className="row">
+                            <div className="col-lg-8 text-center">
+                                <h3>{allproduct.length} - Items in My Cart</h3>
+                                <table className="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Photo</th>
+                                            <th>Price</th>
+                                            <th>Qty</th>
+                                            <th>Total</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {allproduct.map((item) => {
+                                            const product = item.productId || {};
+                                            return (
+                                                <tr key={item._id}>
+                                                    <td>{product.name || item.name || "No Name"}</td>
+                                                    <td>
+                                                        <img
+                                                            src={imageUrl(product.image || item.image)}
+                                                            alt={product.name || item.name || "No Image"}
+                                                            height="30"
+                                                            width="40"
+                                                        />
+                                                    </td>
+                                                    <td>₹{Number(product.price || item.price || 0).toFixed(2)}</td>
+                                                    <td>
+                                                        <div className="d-flex justify-content-center align-items-center">
+                                                            <button
+                                                                className="btn btn-warning btn-sm me-2"
+                                                                onClick={() => updateQty(item, "N")}
+                                                            >
+                                                                -
+                                                            </button>
+                                                            {item.qty}
+                                                            <button
+                                                                className="btn btn-info btn-sm ms-2"
+                                                                onClick={() => updateQty(item, "Y")}
+                                                            >
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        ₹{(Number(product.price || item.price || 0) * Number(item.qty)).toFixed(2)}
+                                                    </td>
+                                                    <td>
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => removeFromCart(product._id || item._id)}
+                                                        >
+                                                            <i className="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                        <tr>
+                                            <td colSpan={6} className="text-end pe-4 text-primary">
+                                                <b>Final Price ₹ {totalCost.toFixed(2)}</b>
                                             </td>
                                         </tr>
-                                    );
-                                })}
-                                <tr>
-                                    <td colSpan={6} className="text-end pe-4 text-primary">
-                                        <b>Final Price ₹ {totalCost.toFixed(2)}</b>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className="col-lg-4">
-                        <form ref={formRef} onSubmit={handlePaymentConfirmation}>
-                            <div className="p-3 shadow">
-                                <h3>Customer Details</h3>
-
-                                <div className="mb-2">
-                                    <label>Name</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="cname"
-                                        onChange={pickValue}
-                                    />
-                                </div>
-                                <div className="mb-2">
-                                    <label>Mobile</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="mobile"
-                                        onChange={pickValue}
-                                    />
-                                </div>
-                                <div className="mb-2">
-                                    <label>Email</label>
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        name="email"
-                                        onChange={pickValue}
-                                    />
-                                </div>
-                                <div className="mb-2">
-                                    <label>Address</label>
-                                    <textarea
-                                        className="form-control"
-                                        name="address"
-                                        onChange={pickValue}
-                                    />
-                                </div>
-
-                                <div className="mb-2 row">
-                                    <label>Payment Method:</label>
-                                    {["UPI", "Cash"].map((m) => (
-                                        <div key={m} className="form-check col-lg-6 mt-1">
-                                            <input
-                                                type="radio"
-                                                id={m}
-                                                className="form-check-input ms-1 me-1"
-                                                name="paymentMethod"
-                                                value={m}
-                                                checked={paymentMethod === m}
-                                                onChange={handlePaymentMethodChange}
-                                            />
-                                            <label className="form-check-label" htmlFor={m}>
-                                                {m}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {paymentMethod === "UPI" && upiQRCode && (
-                                    <div className="mt-3 text-center">
-                                        <h6>Scan to Pay</h6>
-                                        <img src={upiQRCode} alt="UPI QR" />
-                                    </div>
-                                )}
-
-                                <div className="text-center mt-3">
-                                    <button
-                                        type="submit"
-                                        className="btn btn-success"
-                                        disabled={allproduct.length === 0}
-                                    >
-                                        Complete Payment
-                                    </button>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+
+                            <div className="col-lg-4">
+                                <form ref={formRef} onSubmit={handlePaymentConfirmation}>
+                                    <div className="p-3 shadow">
+                                        <h3>Customer Details</h3>
+
+                                        <div className="mb-2">
+                                            <label>Name</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                name="cname"
+                                                onChange={pickValue}
+                                            />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label>Mobile</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                name="mobile"
+                                                onChange={pickValue}
+                                            />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label>Email</label>
+                                            <input
+                                                type="email"
+                                                className="form-control"
+                                                name="email"
+                                                onChange={pickValue}
+                                            />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label>Address</label>
+                                            <textarea
+                                                className="form-control"
+                                                name="address"
+                                                onChange={pickValue}
+                                            />
+                                        </div>
+
+                                        <div className="mb-2 row">
+                                            <label>Payment Method:</label>
+                                            {["UPI", "Cash"].map((m) => (
+                                                <div key={m} className="form-check col-lg-6 mt-1">
+                                                    <input
+                                                        type="radio"
+                                                        id={m}
+                                                        className="form-check-input ms-1 me-1"
+                                                        name="paymentMethod"
+                                                        value={m}
+                                                        checked={paymentMethod === m}
+                                                        onChange={handlePaymentMethodChange}
+                                                    />
+                                                    <label className="form-check-label" htmlFor={m}>
+                                                        {m}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {paymentMethod === "UPI" && upiQRCode && (
+                                            <div className="mt-3 text-center">
+                                                <h6>Scan to Pay</h6>
+                                                <img src={upiQRCode} alt="UPI QR" />
+                                            </div>
+                                        )}
+
+                                        <div className="text-center mt-3">
+                                            <button
+                                                type="submit"
+                                                className="btn btn-success"
+                                                disabled={allproduct.length === 0}
+                                            >
+                                                Complete Payment
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )
+            }
         </div>
     );
 };
