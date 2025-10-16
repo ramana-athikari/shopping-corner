@@ -130,10 +130,10 @@ const MyCart = () => {
                         </div>
                     </div>
                     {/* Bootstrap responsive table wrapper */}
-                    <div className="table-responsive">
+                    <div className="table-responsive overflow-auto scroll-table">
                         <table className="table table-bordered text-center">
-                            <thead className="table-warning">
-                                <tr>
+                            <thead>
+                                <tr className="table-warning">
                                     <th> Item Name </th>
                                     <th> Photo </th>
                                     <th> Price </th>
@@ -148,7 +148,7 @@ const MyCart = () => {
                                         totalcost = totalcost + (product.pprice * product.qty);
                                         if (product.pname.toLowerCase().match(keyword.toLowerCase()) || product.pprice.toString().match(keyword))
                                             return (
-                                                <tr key={index}>
+                                                <tr key={index} className="table-info">
                                                     <td> {product.pname} </td>
                                                     <td> <img src={product.photo} height="50px" width="70px" /> </td>
                                                     <td> {product.pprice} </td>

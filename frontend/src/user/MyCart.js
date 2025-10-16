@@ -240,70 +240,72 @@ const MyCart = () => {
                         <div className="row">
                             <div className="col-lg-8 text-center">
                                 <h3>{allproduct.length} - Items in My Cart</h3>
-                                <table className="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Photo</th>
-                                            <th>Price</th>
-                                            <th>Qty</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {allproduct.map((item) => {
-                                            const product = item.productId || {};
-                                            return (
-                                                <tr key={item._id}>
-                                                    <td>{product.name || item.name || "No Name"}</td>
-                                                    <td>
-                                                        <img
-                                                            src={imageUrl(product.image || item.image)}
-                                                            alt={product.name || item.name || "No Image"}
-                                                            height="30"
-                                                            width="40"
-                                                        />
-                                                    </td>
-                                                    <td>₹{Number(product.price || item.price || 0).toFixed(2)}</td>
-                                                    <td>
-                                                        <div className="d-flex justify-content-center align-items-center">
+                                <div className="table-responsive overflow-auto scroll-table">
+                                    <table className="table table-bordered">
+                                        <thead className="table-warning">
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Photo</th>
+                                                <th>Price</th>
+                                                <th>Qty</th>
+                                                <th>Total</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {allproduct.map((item) => {
+                                                const product = item.productId || {};
+                                                return (
+                                                    <tr key={item._id}>
+                                                        <td>{product.name || item.name || "No Name"}</td>
+                                                        <td>
+                                                            <img
+                                                                src={imageUrl(product.image || item.image)}
+                                                                alt={product.name || item.name || "No Image"}
+                                                                height="30"
+                                                                width="40"
+                                                            />
+                                                        </td>
+                                                        <td>₹{Number(product.price || item.price || 0).toFixed(2)}</td>
+                                                        <td>
+                                                            <div className="d-flex justify-content-center align-items-center">
+                                                                <button
+                                                                    className="btn btn-warning btn-sm me-2"
+                                                                    onClick={() => updateQty(item, "N")}
+                                                                >
+                                                                    -
+                                                                </button>
+                                                                {item.qty}
+                                                                <button
+                                                                    className="btn btn-info btn-sm ms-2"
+                                                                    onClick={() => updateQty(item, "Y")}
+                                                                >
+                                                                    +
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            ₹{(Number(product.price || item.price || 0) * Number(item.qty)).toFixed(2)}
+                                                        </td>
+                                                        <td>
                                                             <button
-                                                                className="btn btn-warning btn-sm me-2"
-                                                                onClick={() => updateQty(item, "N")}
+                                                                className="btn btn-danger btn-sm"
+                                                                onClick={() => removeFromCart(product._id || item._id)}
                                                             >
-                                                                -
+                                                                <i className="fa fa-trash"></i>
                                                             </button>
-                                                            {item.qty}
-                                                            <button
-                                                                className="btn btn-info btn-sm ms-2"
-                                                                onClick={() => updateQty(item, "Y")}
-                                                            >
-                                                                +
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        ₹{(Number(product.price || item.price || 0) * Number(item.qty)).toFixed(2)}
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            className="btn btn-danger btn-sm"
-                                                            onClick={() => removeFromCart(product._id || item._id)}
-                                                        >
-                                                            <i className="fa fa-trash"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                        <tr>
-                                            <td colSpan={6} className="text-end pe-4 text-primary">
-                                                <b>Final Price ₹ {totalCost.toFixed(2)}</b>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                            <tr>
+                                                <td colSpan={6} className="text-end pe-4 text-primary">
+                                                    <b>Final Price ₹ {totalCost.toFixed(2)}</b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                             <div className="col-lg-4">
