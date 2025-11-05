@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -91,6 +91,11 @@ const UserHeader = () => {
                       <i className="fa fa-user me-2"></i> View Profile
                     </Link>
                   </li> */}
+                  <li>
+                    <Link className="dropdown-item" to="/myOrders">
+                      <i className="fa fa-box-archive me-2"></i> Orders
+                    </Link>
+                  </li>
                   <li>
                     <Link className="dropdown-item" to="/edit-profile">
                       <i className="fa fa-edit me-2"></i> Edit Profile

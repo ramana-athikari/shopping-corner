@@ -64,13 +64,29 @@ export const placeOrder = async (req, res) => {
     }
 };
 
+// // --- Get all orders of a user ---
+// export const getUserOrders = async (req, res) => {
+//     try {
+//         const { userId } = req.params;
+
+//         const orders = await Order.find({ userId })
+//             .populate("products.productId") // to show product details
+//             .sort({ createdAt: -1 });
+
+//         res.json(orders);
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// };
+
 // --- Get all orders of a user ---
 export const getUserOrders = async (req, res) => {
     try {
         const { userId } = req.params;
 
         const orders = await Order.find({ userId })
-            .populate("products.productId") // to show product details
+            .populate("userId", "fullName email mobile") // ✅ populate customer details
+            .populate("products.productId")              // ✅ include product details
             .sort({ createdAt: -1 });
 
         res.json(orders);
@@ -79,40 +95,8 @@ export const getUserOrders = async (req, res) => {
     }
 };
 
-// export const getOrders = async (req, res) => {
-//     try {
-//         const { sellerId } = req.query;
 
-//         const orders = await Order.find()
-//             .populate("userId", "fullName email mobile") // populate user info
-//             .populate({
-//                 path: "products.productId",
-//                 select: "name price image sellerId"
-//             })
-//             .sort({ createdAt: -1 });
-
-//         let filteredOrders = orders;
-
-//         if (sellerId) {
-//             const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
-
-//             filteredOrders = orders
-//                 .map(order => {
-//                     const filteredProducts = order.products.filter(
-//                         p => p.productId?.sellerId.equals(sellerObjectId)
-//                     );
-//                     return { ...order.toObject(), products: filteredProducts };
-//                 })
-//                 .filter(order => order.products.length > 0);
-//         }
-
-//         res.json(filteredOrders);
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({ error: err.message });
-//     }
-// };
-
+// Get all orders for seller
 export const getOrders = async (req, res) => {
   try {
     const { sellerId } = req.query;
@@ -145,43 +129,6 @@ export const getOrders = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-// export const getOrders = async (req, res) => {
-//     try {
-//         const { sellerId } = req.query;
-
-//         const orders = await Order.find()
-//             .populate("userId", "fullName email mobile")
-//             .populate({
-//                 path: "products.productId",
-//                 select: "name sellerId",
-//                 populate: { path: "sellerId", select: "name email" } // populate seller info
-//             })
-//             .sort({ createdAt: -1 });
-
-//         if (sellerId) {
-//             // const sellerObjectId = mongoose.Types.ObjectId(sellerId);
-//             const sellerObjectId = sellerId ? new mongoose.Types.ObjectId(sellerId) : null;
-
-
-//             const filteredOrders = orders
-//                 .map(order => {
-//                     const filteredProducts = order.products.filter(
-//                         p => p.productId?.sellerId?._id.equals(sellerObjectId)
-//                     );
-//                     return { ...order.toObject(), products: filteredProducts };
-//                 })
-//                 .filter(order => order.products.length > 0);
-
-//             return res.json(filteredOrders);
-//         }
-
-//         res.json(orders);
-//     } catch (err) {
-//         console.error("Error fetching orders:", err);
-//         res.status(500).json({ error: err.message });
-//     }
-// };
 
 // --- Update order status (Admin only) ---
 export const updateOrderStatus = async (req, res) => {

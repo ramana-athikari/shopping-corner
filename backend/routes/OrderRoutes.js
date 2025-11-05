@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/", placeOrder);
 
 // Get all orders of a specific user
-router.get("/user/:userId", getUserOrders);
+router.get("/:userId", getUserOrders);
 
 // Get all orders (Admin)
 router.get("/", getOrders);

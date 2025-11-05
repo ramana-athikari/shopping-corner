@@ -9,6 +9,7 @@ import UserLogin from "../components/UserLogin";
 import UserSignUp from "../components/UserSignUp";
 import ChangePassword from "./UserPasswordManager";
 import EditUserProfile from "./EditUserProfile";
+import MyOrders from "./MyOrders";
 
 const UserModule = () => {
 
@@ -23,6 +24,7 @@ const UserModule = () => {
                 <Route exact path="/UserSignUp" element={<UserSignUp/>}/>
                 <Route exact path="/change-password" element={<ChangePassword/>}/>
                 <Route exact path="/edit-profile" element={<EditUserProfile/>}/>
+                <Route exact path="/myOrders" element={<MyOrders/>}/>
             </Routes>
 
             <MyFooter />

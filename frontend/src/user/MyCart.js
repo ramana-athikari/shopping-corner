@@ -25,6 +25,11 @@ const MyCart = () => {
         setLoading(true); // start loading
         try {
             const userId = localStorage.getItem("userId");
+            // if (!userId) {
+            //     toast.error("User not logged in!", { autoClose: 1500 });
+            //     setLoading(false);
+            //     return;
+            // }
             const res = await fetch(`${API_BASE}/api/cart?userId=${userId}`);
             const cartItems = await res.json();
 
@@ -62,45 +67,12 @@ const MyCart = () => {
         }
     };
 
-    // useEffect(() => {
-    //     getproduct();
-    // }, []);
-
-    const hasFetched = useRef(false);
-
-    // useEffect(() => {
-    //     const userId = localStorage.getItem("userId");
-    //     if (userId) {
-    //         getproduct(userId);
-    //         hasFetched.current = true;
-    //     }
-    // }, []);
-
     useEffect(() => {
         const userId = localStorage.getItem("userId");
         if (userId) {
             getproduct(); // ✅ load only once at page load
         }
     }, []);
-
-
-    // const removeFromCart = async (productId) => {
-    //     try {
-    //         const userId = localStorage.getItem("userId");
-
-    //         await fetch(`${API_BASE}/api/cart/${productId}`, {
-    //             method: "DELETE",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ userId }),
-    //         });
-
-    //         toast.info("Removed from cart!", { autoClose: 1500 });
-    //         getproduct(); // refresh cart
-    //     } catch (error) {
-    //         console.error(error);
-    //         toast.error("Failed to remove item.");
-    //     }
-    // };
 
     const removeFromCart = async (productId) => {
         try {
@@ -124,24 +96,6 @@ const MyCart = () => {
             toast.error("Failed to remove item.");
         }
     };
-
-    // const updateQty = async (item, action) => {
-    //     const newQty = Number(item.qty) + (action === "Y" ? 1 : -1);
-
-    //     if (newQty <= 0) {
-    //         return removeFromCart(item.productId?._id || item._id);
-    //     }
-
-    //     const userId = localStorage.getItem("userId");
-
-    //     await fetch(`${API_BASE}/api/cart/${item.productId?._id || item._id}`, {
-    //         method: "PUT",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({ userId, qty: newQty }),
-    //     });
-
-    //     getproduct();
-    // };
 
     const updateQty = async (item, action) => {
         const newQty = Number(item.qty) + (action === "Y" ? 1 : -1);
