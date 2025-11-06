@@ -17,4 +17,19 @@ A full-stack MERN (MongoDB, Express, React, Node.js) shopping website with cart,
 ## ⚙️ Setup Instructions
 1. Clone the repo:
    ```command prompt
-   git clone https://github.com/your-username/shopping-corner.git
+   git clone https://github.com/ramana-athikari/shopping-corner.git
+
+Go to the server folder and create a file named .env:
+
+## follow the steps after cloning the project 
+Go to the backend folder and create a file named .env:
+
+Add the following lines to .env:
+
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+
+Example:
+MONGO_URI=mongodb+srv://username:password@cluster0.mongodb.net/shopping
+JWT_SECRET=mySecretKey123
