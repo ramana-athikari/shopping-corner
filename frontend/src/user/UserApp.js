@@ -1,6 +1,5 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
-
 import ProductList from "./HomePage";
 import MyFooter from "./Footer";
 import UserHeader from "./UserNavbar";

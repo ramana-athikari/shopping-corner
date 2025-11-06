@@ -138,8 +138,8 @@ const MyCart = () => {
         setPaymentMethod(method);
 
         if (method === "UPI") {
-            const upiId = "prasadbatari@oksbi";
-            const merchantName = "Batari";
+            const upiId = "";
+            const merchantName = "";
             const amount = calculateTotalCost(allproduct).toFixed(2);
             const upiLink = `upi://pay?pa=${upiId}&pn=${merchantName}&mc=0000&tid=${Date.now()}&tn=Payment%20for%20order&am=${amount}&cu=INR`;
             const qr = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(

@@ -124,7 +124,7 @@ const SellerLogin = () => {
                                 </button>
                             </div>
                             <div className="text-center mb-2">
-                                New Seller? <Link to="/SellerSignUp" className="text-decoration-none text-Primary fw-bold">  Create Account </Link>
+                                New Seller? <Link to="/seller-signUp" className="text-decoration-none text-Primary fw-bold">  Create Account </Link>
                             </div>
                         </div>
                     </div>

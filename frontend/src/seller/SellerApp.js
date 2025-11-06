@@ -19,12 +19,12 @@ const SellerModule = () => {
 
             <Routes>
                 <Route exact path="/" element={<SellerDashboard />} />
-                <Route exact path="/SellerLogin" element={<SellerLogin />} />
-                <Route exact path="/SellerSignup" element={<CreateSellerAccount />} />
-                <Route exact path="/inventary" element={<ManageProduct />} />
-                <Route exact path="/new-inventary" element={<NewProduct />} />
-                <Route exact path="/order" element={<ManageOrder />} />
-                <Route exact path="/edit-profile" element={<EditSellerProfile />} />
+                <Route exact path="/Seller-login" element={<SellerLogin />} />
+                <Route exact path="/Seller-signup" element={<CreateSellerAccount />} />
+                <Route exact path="/seller-inventory" element={<ManageProduct />} />
+                <Route exact path="/seller-add-product" element={<NewProduct />} />
+                <Route exact path="/seller-orders" element={<ManageOrder />} />
+                <Route exact path="/seller-profile" element={<EditSellerProfile />} />
                 <Route exact path="/change-password" element={<ChangeSellerPassword />} />
             </Routes>
 
