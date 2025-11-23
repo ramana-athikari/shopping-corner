@@ -58,7 +58,7 @@ const MyDashboard = () => {
 
                 <div className="row text-center">
                     <div className="col-lg-4">
-                        <Link to="/inventary" className="text-decoration-none text-primary">
+                        <Link to="/seller-inventory" className="text-decoration-none text-primary">
                             <i className="fa fa-suitcase fa-3x"> </i>
                             <h4>
                                 Total Product - {loadingProducts ? "Loading..." : allProduct.length || 0}
@@ -66,7 +66,7 @@ const MyDashboard = () => {
                         </Link>
                     </div>
                     <div className="col-lg-4">
-                        <Link to="/order" className="text-decoration-none text-warning">
+                        <Link to="/seller-orders" className="text-decoration-none text-warning">
                             <i className="fa fa-headset fa-3x"> </i>
                             <h4>
                                 Order Received - {loadingOrders ? "Loading..." : allOrder.length || 0}
@@ -74,7 +74,7 @@ const MyDashboard = () => {
                         </Link>
                     </div>
                     <div className="col-lg-4">
-                        <Link to="/new-inventary" className="text-decoration-none text-success">
+                        <Link to="/seller-add-product" className="text-decoration-none text-success">
                             <i className="fa fa-plus fa-3x"> </i>
                             <h4> Add Product </h4>
                         </Link>
