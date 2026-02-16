@@ -198,16 +198,46 @@ const SellerHeader = () => {
 
                         {/* Dropdown for Seller */}
                         {sellerName ? (
+                            // <li className="nav-item dropdown">
+                            //     <a
+                            //         // href="#"
+                            //         className="nav-link dropdown-toggle text-white"
+                            //         role="button"
+                            //         data-bs-toggle="dropdown"
+                            //         aria-expanded="false"
+                            //     >
+                            //         <i className="fa fa-user-circle me-1"></i> {sellerName}
+                            //     </a>
+                            //     <ul className="dropdown-menu dropdown-menu-end">
+                            //         <li>
+                            //             <Link className="dropdown-item" to="/seller-profile">
+                            //                 <i className="fa fa-user me-2"></i> Profile
+                            //             </Link>
+                            //         </li>
+                            //         <li>
+                            //             <Link className="dropdown-item" to="/change-password">
+                            //                 <i className="fa fa-key me-2"></i> Change Password
+                            //             </Link>
+                            //         </li>
+                            //         <li>
+                            //             <hr className="dropdown-divider" />
+                            //         </li>
+                            //         <li>
+                            //             <button className="dropdown-item" onClick={logoutSeller}>
+                            //                 <i className="fa fa-sign-out-alt me-2"></i> Logout
+                            //             </button>
+                            //         </li>
+                            //     </ul>
+                            // </li>
                             <li className="nav-item dropdown">
-                                <a
-                                    href="#"
-                                    className="nav-link dropdown-toggle text-white"
-                                    role="button"
+                                <button
+                                    className="nav-link dropdown-toggle text-white btn btn-link"
+                                    type="button"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >
                                     <i className="fa fa-user-circle me-1"></i> {sellerName}
-                                </a>
+                                </button>
                                 <ul className="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <Link className="dropdown-item" to="/seller-profile">

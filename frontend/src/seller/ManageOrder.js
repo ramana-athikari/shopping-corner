@@ -13,37 +13,69 @@ const ManageOrder = () => {
     const [loading, setLoading] = useState(false);
 
     // --- Fetch Orders ---
-    const getOrder = async () => {
-        if (!sellerId) return;
-        setLoading(true); // start loading
-        try {
-            const res = await fetch(`${API_BASE}/api/order?sellerId=${sellerId}`);
-            let orders = await res.json();
+    // const getOrders = async () => {
+    //     if (!sellerId) return;
+    //     setLoading(true); // start loading
+    //     try {
+    //         const res = await fetch(`${API_BASE}/api/order?sellerId=${sellerId}`);
+    //         let orders = await res.json();
 
-            // Filter products belonging to this seller
-            orders = orders
-                .map(order => ({
-                    ...order,
-                    products: order.products.filter(
-                        p => p.productId.sellerId === sellerId
-                    )
-                }))
-                .filter(order => order.products.length > 0);
+    //         // Filter products belonging to this seller
+    //         orders = orders
+    //             .map(order => ({
+    //                 ...order,
+    //                 products: order.products.filter(
+    //                     p => p.productId.sellerId === sellerId
+    //                 )
+    //             }))
+    //             .filter(order => order.products.length > 0);
 
-            setOrder(orders.reverse());
-        } catch (err) {
-            console.error("Failed to fetch orders:", err);
-        } finally {
-            setLoading(false); //stop loading
-        }
-    };
+    //         setOrder(orders.reverse());
+    //     } catch (err) {
+    //         console.error("Failed to fetch orders:", err);
+    //     } finally {
+    //         setLoading(false); //stop loading
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     const sellerId = localStorage.getItem("sellerId");
+    //     if (sellerId) {
+    //         getOrders(); // ✅ load only once at page load
+    //     }
+    // }, []);
 
     useEffect(() => {
         const sellerId = localStorage.getItem("sellerId");
-        if (sellerId) {
-            getOrder(); // ✅ load only once at page load
-        }
-    }, []);
+        if (!sellerId) return;
+
+        const getOrders = async () => {
+            setLoading(true);
+            try {
+                let res = await fetch(`${API_BASE}/api/order?sellerId=${sellerId}`);
+                let orders = await res.json();
+
+                // Filter products belonging to this seller
+                orders = orders
+                    .map(order => ({
+                        ...order,
+                        products: order.products.filter(
+                            p => p.productId.sellerId === sellerId
+                        )
+                    }))
+                    .filter(order => order.products.length > 0);
+
+                setOrder(orders.reverse());
+            } catch (err) {
+                console.error("Failed to fetch orders:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        getOrders();
+    }, []); // runs only once on mount
+
 
     // --- Delete Order ---
     const delOrder = (orderId) => {

@@ -45,9 +45,17 @@ const ProductList = () => {
             });
     };
 
+    // useEffect(() => {
+    //     getProduct();
+    // }, [order]);
+
     useEffect(() => {
-        getProduct();
-    }, [order]);
+        const fetchProducts = async () => {
+            await getProduct();
+        }
+        fetchProducts();
+    }, [order]); // only runs when order changes
+
 
     const handleSortChange = () => {
         setOrder(prev => (prev === "asc" ? "desc" : "asc"));

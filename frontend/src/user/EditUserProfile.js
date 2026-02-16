@@ -13,26 +13,51 @@ const EditUserProfile = () => {
 
     const userId = localStorage.getItem("userId"); // assuming it's stored after login
 
-    // Fetch current profile info
-    useEffect(() => {
-        if (!userId) {
-            toast.error("User not logged in");
-            return;
-        }
+    // // Fetch current profile info
+    // useEffect(() => {
+    //     if (!userId) {
+    //         toast.error("User not logged in");
+    //         return;
+    //     }
 
-        fetch(`${API_BASE}/api/user/${userId}`)
-            .then((res) => res.json())
-            .then((data) => {
+    //     fetch(`${API_BASE}/api/user/${userId}`)
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setForm({
+    //                 fullName: data.fullName ?? "",
+    //                 email: data.email ?? "",
+    //                 mobile: data.mobile ?? ""
+    //             });
+    //         })
+    //         .catch(() => {
+    //             toast.error("Failed to load profile data");
+    //         });
+    // }, []);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const userId = localStorage.getItem("userId");
+            if (!userId) {
+                toast.error("User not logged in");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/api/user/${userId}`);
+                const data = await res.json();
                 setForm({
                     fullName: data.fullName ?? "",
                     email: data.email ?? "",
                     mobile: data.mobile ?? ""
                 });
-            })
-            .catch(() => {
+            } catch (err) {
                 toast.error("Failed to load profile data");
-            });
-    }, []);
+            }
+        };
+
+        fetchProfile();
+    }, []); 
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,10 +67,9 @@ const EditUserProfile = () => {
         }));
     };
 
-    
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!form.fullName || !form.email || !form.mobile) {
             toast.error("All fields are required");
             return;

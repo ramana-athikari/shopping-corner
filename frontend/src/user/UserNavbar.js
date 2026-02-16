@@ -75,22 +75,63 @@ const UserHeader = () => {
             </li>
 
             {userName ? (
+              // <li className="nav-item dropdown me-3">
+              //   <a
+              //     href="#"
+              //     className="nav-link dropdown-toggle text-white hover"
+              //     role="button"
+              //     data-bs-toggle="dropdown"
+              //     aria-expanded="false"
+              //   >
+              //     <i className="fa fa-user-circle me-1"></i> {userName}
+              //   </a>
+              //   <ul className="dropdown-menu dropdown-menu-start">
+              //     {/* <li>
+              //       <Link className="dropdown-item" to="/user-profile">
+              //         <i className="fa fa-user me-2"></i> View Profile
+              //       </Link>
+              //     </li> */}
+              //     <li>
+              //       <Link className="dropdown-item" to="/myOrders">
+              //         <i className="fa fa-box-archive me-2"></i> Orders
+              //       </Link>
+              //     </li>
+              //     <li>
+              //       <Link className="dropdown-item" to="/edit-profile">
+              //         <i className="fa fa-edit me-2"></i> Edit Profile
+              //       </Link>
+              //     </li>
+              //     <li>
+              //       <Link className="dropdown-item" to="/change-password">
+              //         <i className="fa fa-key me-2"></i> Change Password
+              //       </Link>
+              //     </li>
+              //     <li>
+              //       <hr className="dropdown-divider" />
+              //     </li>
+              //     <li>
+              //       <button className="dropdown-item" onClick={logoutMe}>
+              //         <i className="fa fa-sign-out-alt me-2"></i> Logout
+              //       </button>
+              //     </li>
+              //   </ul>
+              // </li>
               <li className="nav-item dropdown me-3">
-                <a
-                  href="#"
-                  className="nav-link dropdown-toggle text-white hover"
-                  role="button"
+                <button
+                  className="nav-link dropdown-toggle text-white btn btn-link hover"
+                  type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   <i className="fa fa-user-circle me-1"></i> {userName}
-                </a>
+                </button>
+
                 <ul className="dropdown-menu dropdown-menu-start">
                   {/* <li>
-                    <Link className="dropdown-item" to="/user-profile">
-                      <i className="fa fa-user me-2"></i> View Profile
-                    </Link>
-                  </li> */}
+      <Link className="dropdown-item" to="/user-profile">
+        <i className="fa fa-user me-2"></i> View Profile
+      </Link>
+    </li> */}
                   <li>
                     <Link className="dropdown-item" to="/myOrders">
                       <i className="fa fa-box-archive me-2"></i> Orders
@@ -116,6 +157,7 @@ const UserHeader = () => {
                   </li>
                 </ul>
               </li>
+
             ) : (
               <li className="nav-item me-3">
                 <Link to="/UserLogin" className="nav-link text-white fw-semibold">

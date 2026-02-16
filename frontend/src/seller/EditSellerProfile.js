@@ -16,28 +16,53 @@ const EditSellerProfile = () => {
 
     // Fetch current profile info
 
-    const getProfile = async () => {
-        if (!sellerId) {
-            toast.error("User not logged in");
-            return;
-        }
+    // const getProfile = async () => {
+    //     if (!sellerId) {
+    //         toast.error("User not logged in");
+    //         return;
+    //     }
 
-        fetch(`${API_BASE}/api/seller/${sellerId}`)
-            .then((res) => res.json())
-            .then((data) => {
+    //     fetch(`${API_BASE}/api/seller/${sellerId}`)
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setForm({
+    //                 fullName: data.fullName ?? "",
+    //                 email: data.email ?? "",
+    //                 mobile: data.mobile ?? ""
+    //             });
+    //         })
+    //         .catch(() => {
+    //             toast.error("Failed to load profile data");
+    //         });
+    // }
+
+    // useEffect(() => {
+    //     getProfile();
+    // }, []);
+
+    useEffect(() => {
+        const getProfile = async () => {
+            if (!sellerId) {
+                toast.error("User not logged in");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/api/seller/${sellerId}`);
+                const data = await res.json();
                 setForm({
                     fullName: data.fullName ?? "",
                     email: data.email ?? "",
                     mobile: data.mobile ?? ""
                 });
-            })
-            .catch(() => {
+            } catch (err) {
                 toast.error("Failed to load profile data");
-            });
-    }
-    useEffect(() => {
+            }
+        };
+
         getProfile();
-    }, []);
+    }, [sellerId]); // ✅ include sellerId as dependency if it can change
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
