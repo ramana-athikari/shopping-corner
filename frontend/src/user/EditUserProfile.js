@@ -76,39 +76,6 @@ const EditUserProfile = () => {
         }
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     const userId = localStorage.getItem("userId");
-    //     if (!userId) {
-    //         toast.error("User not logged in");
-    //         return;
-    //     }
-
-    //     if (form.newPassword !== form.confirmPassword) {
-    //         toast.error("New passwords do not match");
-    //         return;
-    //     }
-
-    //     const res = await fetch(`${API_BASE}/api/user/${userId}/password`, {
-    //         method: "PATCH",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({
-    //             currentPassword: form.currentPassword,
-    //             newPassword: form.newPassword
-    //         })
-    //     });
-
-    //     const data = await res.json();
-
-    //     if (res.ok) {
-    //         toast.success(data.message, { autoClose: 1500 });
-    //         setForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
-    //     } else {
-    //         toast.error(data.error || "Failed to update password");
-    //     }
-    // };
-
     return (
         <div className="container mt-4 col-lg-3 col-md-3">
             <ToastContainer />

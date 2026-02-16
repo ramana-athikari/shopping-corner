@@ -94,12 +94,24 @@ const ManageProduct = () => {
               </h4>
             </div>
             <div className="col-lg-3 mb-3 text-center">
-              <input
+              {/* <input
                 type="text"
                 className="form-control"
                 placeholder="Search..."
                 onChange={(e) => setKeyword(e.target.value)}
+              /> */}
+
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search..."
+                value={keyword}
+                onChange={(e) => {
+                  setKeyword(e.target.value);
+                  setCurrentPage(0); // ✅ Reset to first page when searching
+                }}
               />
+
             </div>
 
             <table className="table table-bordered shadow-lg">

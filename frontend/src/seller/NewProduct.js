@@ -11,6 +11,7 @@ const NewProduct = () => {
     const [productInfo, setProductInfo] = useState({});
     const [errors, setErrors] = useState({});
     const [preview, setPreview] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const pickValue = (e) => {
         setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
@@ -33,31 +34,7 @@ const NewProduct = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
-    // const validateForm = () => {
-    //     if (!productInfo.name.trim()) {
-    //         toast.error("⚠️ Product name is required!");
-    //         return false;
-    //     }
-    //     if (!productInfo.price || productInfo.price <= 0) {
-    //         toast.error("⚠️ Price must be greater than 0!");
-    //         return false;
-    //     }
-    //     if (!productInfo.description.trim()) {
-    //         toast.error("⚠️ Description is required!");
-    //         return false;
-    //     }
-    //     if (!productInfo.category.trim()) {
-    //         toast.error("⚠️ Category is required!");
-    //         return false;
-    //     }
-    //     if (!productInfo.image) {
-    //         toast.error("⚠️ Please upload an image!");
-    //         return false;
-    //     }
-    //     return true; // ✅ everything is valid
-    // };
-
+    
     const save = (e) => {
         e.preventDefault();
 
@@ -69,7 +46,7 @@ const NewProduct = () => {
 
             // redirect after short delay so user sees the toast
             setTimeout(() => {
-                navigate("/SellerLogin");
+                navigate("/seller-login");
             }, 1500);
 
             return;
@@ -89,6 +66,8 @@ const NewProduct = () => {
             formData.append("image", productInfo.image); // actual file
         }
 
+        setLoading(true);
+
         fetch(`${API_BASE}/api/product`, {
             method: "POST",
             body: formData, // no headers for FormData
@@ -100,6 +79,7 @@ const NewProduct = () => {
                 setPreview(null); // clear preview
             })
             .catch(err => console.error(err));
+        setLoading(false);
     };
 
 
@@ -161,8 +141,24 @@ const NewProduct = () => {
                     </div>
 
                     <div className="col-lg-12 text-center">
-                        <button className="btn btn-success m-2" type="submit">Save Product</button>
-                        <button className="btn btn-warning m-2" type="reset">Clear All</button>
+                        <button
+                            className="btn btn-success m-2"
+                            type="submit"
+                            disabled={loading}
+                        >
+                            {loading && (
+                                <span className="spinner-border spinner-border-sm me-2"></span>
+                            )}
+                            {loading ? "Saving..." : "Save Product"}
+                        </button>
+
+                        <button
+                            className="btn btn-warning m-2"
+                            type="reset"
+                            disabled={loading}
+                        >
+                            Clear All
+                        </button>
                     </div>
                 </div>
             </form>
