@@ -9,7 +9,6 @@ const ManageOrder = () => {
     const [allOrder, setOrder] = useState([]);
     const PER_PAGE = 3;
     const [currentPage, setCurrentPage] = useState(0);
-    const sellerId = localStorage.getItem("sellerId");
     const [loading, setLoading] = useState(false);
 
     // --- Fetch Orders ---

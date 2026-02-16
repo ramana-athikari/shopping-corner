@@ -88,7 +88,7 @@ const UserSignUp = () => {
                     throw new Error("Failed to create account");
                 }
 
-                const info = await response.json();
+                await response.json();
 
                 obj.target.reset(); // clear form
 

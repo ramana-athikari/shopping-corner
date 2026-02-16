@@ -26,35 +26,49 @@ const ProductList = () => {
         ).length / PER_PAGE
     );
 
-    // Fetch products
-    const getProduct = () => {
-        setLoading(true); // start loading
-        fetch(`${API_BASE}/api/product`)
-            .then(res => res.json())
-            .then(productArray => {
-                const sortedProducts = [...productArray].sort((a, b) =>
-                    order === "asc" ? a.price - b.price : b.price - a.price
-                );
-                setProduct(sortedProducts);
-            })
-            .catch(() => {
-                toast.error("Failed to fetch products!", { autoClose: 1500 });
-            })
-            .finally(() => {
-                setLoading(false); // stop loading
-            });
-    };
+    // // Fetch products
+    // const getProduct = () => {
+    //     setLoading(true); // start loading
+    //     fetch(`${API_BASE}/api/product`)
+    //         .then(res => res.json())
+    //         .then(productArray => {
+    //             const sortedProducts = [...productArray].sort((a, b) =>
+    //                 order === "asc" ? a.price - b.price : b.price - a.price
+    //             );
+    //             setProduct(sortedProducts);
+    //         })
+    //         .catch(() => {
+    //             toast.error("Failed to fetch products!", { autoClose: 1500 });
+    //         })
+    //         .finally(() => {
+    //             setLoading(false); // stop loading
+    //         });
+    // };
 
     // useEffect(() => {
     //     getProduct();
     // }, [order]);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            await getProduct();
-        }
-        fetchProducts();
-    }, [order]); // only runs when order changes
+        const getProducts = async () => {
+            setLoading(true);
+            try {
+                const res = await fetch(`${API_BASE}/api/product`);
+                const productArray = await res.json();
+                const sortedProducts = [...productArray].sort((a, b) =>
+                    order === "asc" ? a.price - b.price : b.price - a.price
+                );
+                setProduct(sortedProducts);
+            } catch (err) {
+                toast.error("Failed to fetch products!", { autoClose: 1500 });
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        getProducts();
+    }, [order]); // ✅ runs only when order changes
+
 
 
     const handleSortChange = () => {

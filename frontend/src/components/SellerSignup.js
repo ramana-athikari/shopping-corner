@@ -92,7 +92,7 @@ const CreateSellerAccount = () => {
                     throw new Error("Server error while creating account");
                 }
 
-                const info = await res.json();
+                await res.json();
 
                 // Clear form fields
                 obj.target.reset(); // clear form
