@@ -79,41 +79,37 @@ const UserSignUp = () => {
             };
 
             try {
-                setIsLoading(true); // optional: if you're using a loading state
+                setIsLoading(true);
                 setMessage("Please Wait Processing...");
 
                 const response = await fetch(url, postData);
 
+                const data = await response.json(); //  read backend message
+
                 if (!response.ok) {
-                    throw new Error("Failed to create account");
+                    throw new Error(data.message); //  use backend message
                 }
 
-                await response.json();
+                obj.target.reset();
 
-                obj.target.reset(); // clear form
-
-                // alert(`${newUser.fullName} - Saved Successfully!`);
                 toast.success(`Created Successfully!`, { autoClose: 1500 });
 
-                // window.location.href = "/#/"; // redirect
                 setTimeout(() => {
-                    window.location.href = "/#/";
-                    // or use navigate("/"); if using useNavigate
+                    window.location.href = "/#/UserLogin";
                 }, 1500);
 
             } catch (error) {
-                // console.error("Error saving user:", error);
-                // setMessage("Something went wrong. Please try again.");
-                toast.error("Something went wrong. Please try again.");
+                toast.error(error.message || "Something went wrong");
+                setMessage(error.message);
             } finally {
-                setIsLoading(false); // optional
+                setIsLoading(false);
             }
         }
     };
 
     return (
         <div className="container mt-5">
-        <ToastContainer/>
+            <ToastContainer />
             <form onSubmit={registerUser}>
                 <div className="row">
                     <div className="col-lg-4"></div>

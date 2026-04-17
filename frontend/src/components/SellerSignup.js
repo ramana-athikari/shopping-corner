@@ -88,25 +88,26 @@ const CreateSellerAccount = () => {
 
                 const res = await fetch(url, postData);
 
+                const data = await res.json(); 
+
                 if (!res.ok) {
-                    throw new Error("Server error while creating account");
+                    throw new Error(data.message);
                 }
 
-                await res.json();
-
-                // Clear form fields
+                // await res.json();
                 obj.target.reset(); // clear form
 
                 toast.success("Account Created Successfully!", { autoClose: 1500 });
                 
                 setTimeout(() => {
                     const query = window.location.search; // Preserves ?viewMode=seller
-                    window.location.href = `${window.location.origin}${query}#/SellerLogin`;
+                    window.location.href = `${window.location.origin}${query}#/seller-login`;
                 }, 1500);
 
             } catch (error) {
                 // console.error("Registration failed:", error);
-                toast.error("Something went wrong. Please try again.");
+                toast.error(error.message);
+                setMessage(error.message);
             } finally {
                 setIsLoading(false); // stop loading spinner
             }
