@@ -61,6 +61,8 @@ const UserLogin = () => {
             const data = await res.json();
 
             if (res.ok && data.success) {
+                setMessage("");
+
                 // ✅ Success
                 localStorage.setItem("userId", data.user._id);
                 localStorage.setItem("userName", data.user.fullName);
@@ -69,8 +71,8 @@ const UserLogin = () => {
                 navigate("/");
             } else {
                 // ❌ Error from backend
-                toast.error(data.message || "Invalid credentials");
                 setMessage(data.message);
+                // toast.error(data.message || "Invalid credentials");
             }
         } catch (error) {
             console.error("Login error:", error);
