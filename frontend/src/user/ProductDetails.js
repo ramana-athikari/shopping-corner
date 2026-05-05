@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE = process.env.REACT_APP_API_URL;
 
@@ -10,6 +11,8 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(false);
     const [cartLoading, setCartLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -82,6 +85,12 @@ const ProductDetails = () => {
 
     return (
         <div className="container mt-5">
+            <button
+                className="btn btn-sm btn-outline-secondary mb-3"
+                onClick={() => navigate(-1)}
+            >
+                ← Back
+            </button>
             <div className="row">
 
                 {/* Image */}
