@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import CarouselPage from "./AdvertisementPage";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE = process.env.REACT_APP_API_URL;
 
@@ -17,6 +18,7 @@ const ProductList = () => {
     const PER_PAGE = 8;
 
     const offset = currentPage * PER_PAGE;
+    const navigate = useNavigate();
 
     // Recalculate page count after filtering
     const pageCount = Math.ceil(
@@ -67,7 +69,7 @@ const ProductList = () => {
         };
 
         getProducts();
-    }, [order]); // ✅ runs only when order changes
+    }, [order]); // runs only when order changes
 
 
 
@@ -87,7 +89,7 @@ const ProductList = () => {
         }
 
         const cartItem = {
-            productId: product._id,   // ✅ send productId only
+            productId: product._id,   //  send productId only
             userId: userId,
             qty: 1
         };
@@ -150,7 +152,13 @@ const ProductList = () => {
                     </div>
                 ) : filteredProducts.length > 0 ? (
                     filteredProducts.slice(offset, offset + PER_PAGE).map((product, index) => (
-                        <div key={product._id || index} className="col-lg-3 mb-4">
+                        // <div key={product._id || index} className="col-lg-3 mb-4">
+                        <div
+                            key={product._id || index}
+                            className="col-lg-3 mb-4"
+                            onClick={() => navigate(`/product/${product._id}`)}
+                            style={{ cursor: "pointer" }}
+                        >
                             <div className="p-3 shadow-lg rounded-semi-circle homebg">
                                 <h4 className="text-primary mb-3">{product.name}</h4>
                                 <p className="mt-3 text-center">
@@ -169,7 +177,10 @@ const ProductList = () => {
                                 <p className="text-center mb-3">
                                     <button
                                         className="me-3 btn btn-warning btn-sm"
-                                        onClick={() => addInCart(product)}
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // ✅ prevents navigation
+                                            addInCart(product);
+                                        }}
                                     >
                                         <i className="fa fa-shopping-cart"></i> Add to Cart
                                     </button>
